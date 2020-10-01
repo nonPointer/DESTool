@@ -19,11 +19,16 @@ var key = '';
  * @returns {string}
  */
 function str2bin(str) {
+    // force conversion to string
+    str = String(str);
+
     let result = [];
     str.split('').forEach(element => {
         let bin = element.charCodeAt(0).toString(2);
-        let leading = '' + (8 - bin.length) * '0';
-        result.push(leading + bin);
+        let leading = '';
+        while (leading.length + bin.length !== 8)
+            leading = leading.concat('0');
+        result.push(leading.concat(bin));
     });
     return result.join('');
 }
