@@ -226,6 +226,15 @@ function testCase() {
         console.assert(leftRotation(testArray, 6)[0] === 2, 'leftRotate failed');
         console.assert(leftRotation(testArray, 11)[0] === 2, 'leftRotate failed');
     }
+    // keyPreprocessing
+    {
+        let testBinA = '0011000100110001001100010011000100000000000000000000000000000000';
+        console.assert(strToBin(keyPreprocessing('1111')) === testBinA, 'strToBin failed');
+        let testBinB = '0011000100110001001100010011000100110001001100010011000100110001';
+        console.assert(strToBin(keyPreprocessing('11111111')) === testBinB, 'strToBin failed');
+        let testBinC = '0000000000000000000000000000000000000000000000000000000000000000';
+        console.assert(strToBin(keyPreprocessing('1111111111111111')) === testBinC, 'strToBin failed');
+    }
 }
 
 /**
@@ -245,6 +254,11 @@ Test case #1
     plaintext: Hello world!
     key: 12345678
     supposed ciphertext: U2FsdGVkX19q4LK72ili7H6717XJjO/++vERZ3bBJ+I=
+
+Test case #2
+    plaintext: DES
+    key: 88888888
+    supposed ciphertext: U2FsdGVkX196fVuVKl+RFBau+1jLTRiE
  */
 
 // utf8 to base64
