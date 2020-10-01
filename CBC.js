@@ -12,7 +12,7 @@
 
 /**
  * Covert ASCII string to binary string with 1 and 0
- * @param str
+ * @param str {string}
  * @returns {string}
  */
 function strToBin(str) {
@@ -32,7 +32,8 @@ function strToBin(str) {
 
 /**
  * Regulate key into 64-bit fixed size
- * @param key string
+ * @param key {string}
+ * @returns {string}
  */
 function keyPreprocessing(key) {
 
@@ -69,9 +70,9 @@ function keyPreprocessing(key) {
 
 /**
  * Left rotate the key set
- * @param arr array of selected key bits
- * @param offset the offset of rotation
- * @returns {T[]}
+ * @param arr {number[]} array of selected key bits
+ * @param offset {number} the offset of rotation
+ * @returns {number[]}
  */
 function leftRotation(arr, offset) {
     // just in case offset exceed the length of array;
@@ -81,8 +82,8 @@ function leftRotation(arr, offset) {
 
 /**
  * Derive 16 sub-keys from the master key.
- * @param key
- * @returns {*}
+ * @param key {string}
+ * @returns {number[]}
  */
 function keyGenerator(key) {
     let keyLr = permutedChoice1(key);
@@ -105,7 +106,7 @@ function keyGenerator(key) {
 /**
  * Permuted Choice 1
  * @param key
- * @returns {[][]}
+ * @returns {number[][]}
  */
 function permutedChoice1(key) {
     let pc1_l = [
@@ -158,8 +159,8 @@ function permutedChoice2(key) {
 
 /**
  * IP
- * @param lst0
- * @returns {*}
+ * @param lst0 {number[]}
+ * @returns {number[]}
  */
 function initialPermutation(lst0) {
     let lst1 = lst0;
@@ -181,8 +182,8 @@ function initialPermutation(lst0) {
 
 /**
  * IP^{-1}
- * @param lst0
- * @returns {*}
+ * @param lst0 {number[]}
+ * @returns {number[]}
  */
 function finalPermutation(lst0) {
     let lst1 = lst0;
