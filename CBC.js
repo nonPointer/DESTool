@@ -108,6 +108,50 @@ function finalPermutation(lst0) {
     return lst1;
 }
 
+/**
+ * custom test case
+ */
+function testCase() {
+    // str2bin
+    {
+        let testBinA =
+            '01001000011001010110110001101100' +
+            '01101111001000000111011101101111' +
+            '01110010011011000110010000100001';
+        console.assert(strToBin('Hello world!') === testBinA, 'str2bin failed');
+        let testBinB = '010001000100010101010011';
+        console.assert(strToBin('DES') === testBinB, 'str2bin failed');
+    }
+    // leftRotate
+    {
+        let testArray = [1, 2, 3, 4, 5];
+        console.assert(leftRotation(testArray, 1)[0] === 2, 'leftRotate failed');
+        console.assert(leftRotation(testArray, 2)[0] === 3, 'leftRotate failed');
+        // need module just in case offset > array length
+        console.assert(leftRotation(testArray, 6)[0] === 2, 'leftRotate failed');
+        console.assert(leftRotation(testArray, 11)[0] === 2, 'leftRotate failed');
+    }
+}
+
+/**
+ * Blob binary or plaintext
+ * @type {string}
+ */
+let inputPlainText = 'Hello world!';
+
+/**
+ * Key, default empty
+ * @type {string}
+ */
+let inputKey = '';
+
+/*
+Test case #1
+    plaintext: Hello world!
+    key: 12345678
+    supposed ciphertext: U2FsdGVkX19q4LK72ili7H6717XJjO/++vERZ3bBJ+I=
+ */
+
 // utf8 to base64
 let strBase64 = Buffer.from(inputPlainText).toString('base64');
 
@@ -115,5 +159,4 @@ let strBase64 = Buffer.from(inputPlainText).toString('base64');
 inputPlainText = Buffer.from(strBase64, 'base64').toString('utf8');
 console.log(inputPlainText)
 
-input = 'TEST'
-console.log(str2bin(input));
+testCase();
