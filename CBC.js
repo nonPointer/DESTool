@@ -105,7 +105,7 @@ function keyGenerator(key) {
 
 /**
  * Permuted Choice 1
- * @param key
+ * @param key {number}
  * @returns {number[]}
  */
 function permutedChoice1(key) {
@@ -134,8 +134,8 @@ function permutedChoice1(key) {
 
 /**
  * Permuted Choice 2
- * @param key
- * @returns {*[]}
+ * @param key {number[]}
+ * @returns {number[]}
  */
 function permutedChoice2(key) {
     let pc2 = [
