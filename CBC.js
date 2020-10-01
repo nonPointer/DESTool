@@ -51,10 +51,10 @@ function permutedChoice1(key) {
         21, 13, 5, 28, 20, 12, 4];
     let l = [], r = [];
     for (let i in pc1_l) {
-        l.push(key[pc1_l[i]]);
+        l.push(key[pc1_l[i]-1]);
     }
     for (let i in pc1_r) {
-        r.push(key[pc1_r[i]]);
+        r.push(key[pc1_r[i]-1]);
     }
 
     return [l, r];
