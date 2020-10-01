@@ -10,9 +10,6 @@
 //  enable strict mode
 "use strict";
 
-var input = 'Hello world!';
-var key = '';
-
 /**
  * Covert ASCII string to binary string with 1 and 0
  * @param str
