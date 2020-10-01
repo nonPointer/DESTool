@@ -31,6 +31,78 @@ function strToBin(str) {
 }
 
 /**
+ * Regulate key into 64-bit fixed size
+ * @param key string
+ */
+function keyPreprocessing(key) {
+
+    if (key.length < 8) {
+        // for short key, append zero byte
+        while (key.length !== 8)
+            key = key.concat('\0');
+
+        return key;
+    } else if (key.length > 8) {
+        // for longer bit, use zero byte padding then XOR each bit
+        while (key.length % 8 !== 0) {
+            key = key.push('\0');
+        }
+        let round = Math.round(key.length / 8);
+        let res = [];
+        for (let i = 0; i < 8; ++i) {
+            res.push(key[i].charCodeAt(0));
+        }
+        for (let i = 1; i < round; ++i) {
+            for (let j = 0; j < 8; ++j)
+                res[j] = res[j] ^ key[i * 8 + j].charCodeAt(0);
+        }
+        key = '';
+        while (res.length > 0) {
+            key = key.concat(String.fromCharCode(res.shift()));
+        }
+
+        return key;
+    }
+
+    return key;
+}
+
+/**
+ * Left rotate the key set
+ * @param arr array of selected key bits
+ * @param offset the offset of rotation
+ * @returns {T[]}
+ */
+function leftRotation(arr, offset) {
+    // just in case offset exceed the length of array;
+    offset = offset % arr.length;
+    return arr.slice(offset).concat(arr.slice(0, offset));
+}
+
+/**
+ * Derive 16 sub-keys from the master key.
+ * @param key
+ * @returns {*}
+ */
+function keyGenerator(key) {
+    let keyLr = permutedChoice1(key);
+    let keyL = keyLr[0];
+    let keyR = keyLr[1];
+
+    let offsets = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1];
+    let subKeys = [];
+
+    for (let i = 0; i < 16; ++i) {
+        keyL = leftRotation(keyL, offsets[i]);
+        keyR = leftRotation(keyR, offsets[i]);
+
+        subKeys.push(permutedChoice2(keyL.concat(keyR)));
+    }
+
+    return subKeys;
+}
+
+/**
  * Permuted Choice 1
  * @param key
  * @returns {[][]}
