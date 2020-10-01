@@ -60,6 +60,31 @@ function permutedChoice1(key) {
 }
 
 /**
+ * Permuted Choice 2
+ * @param key
+ * @returns {*[]}
+ */
+function permutedChoice2(key) {
+    let pc2 = [
+        14, 17, 11, 24, 1, 5,
+        3, 28, 15, 6, 21, 10,
+        23, 19, 12, 4, 26, 8,
+        16, 7, 27, 20, 13, 2,
+        41, 52, 31, 37, 47, 55,
+        30, 40, 51, 45, 33, 48,
+        44, 49, 39, 56, 34, 53,
+        46, 42, 50, 36, 29, 32
+    ];
+
+    let res = [];
+    for (let i in pc2) {
+        res.push(key[pc2[i]]);
+    }
+
+    return res;
+}
+
+/**
  * IP
  * @param lst0
  * @returns {*}
