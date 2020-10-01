@@ -18,7 +18,7 @@ var key = '';
  * @param str
  * @returns {string}
  */
-function str2bin(str) {
+function strToBin(str) {
     // force conversion to string
     str = String(str);
 
@@ -53,10 +53,10 @@ function permutedChoice1(key) {
     ];
     let l = [], r = [];
     for (let i in pc1_l) {
-        l.push(key[pc1_l[i]-1]);
+        l.push(key[pc1_l[i] - 1]);
     }
     for (let i in pc1_r) {
-        r.push(key[pc1_r[i]-1]);
+        r.push(key[pc1_r[i] - 1]);
     }
 
     return [l, r];
@@ -109,12 +109,11 @@ function finalPermutation(lst0) {
 }
 
 // utf8 to base64
-var strBase64 = Buffer.from(input).toString('base64');
-console.log(strBase64);
+let strBase64 = Buffer.from(inputPlainText).toString('base64');
 
 // base64 to utf8
-input = Buffer.from(strBase64, 'base64').toString('utf8');
-console.log(input)
+inputPlainText = Buffer.from(strBase64, 'base64').toString('utf8');
+console.log(inputPlainText)
 
 input = 'TEST'
 console.log(str2bin(input));
