@@ -209,7 +209,7 @@ function initialPermutation(bin) {
  * @returns {string[]}
  */
 function finalPermutation(bin) {
-    let bin2 = bin;
+    let res = [];
     let positions = [
         40, 8, 48, 16, 56, 24, 64, 32,
         39, 7, 47, 15, 55, 23, 63, 31,
@@ -221,9 +221,9 @@ function finalPermutation(bin) {
         33, 1, 41, 9, 49, 17, 57, 25
     ]
     for (let i = 0; i < positions.length; ++i) {
-        bin2[i] = bin[positions[i] - 1];
+        res.push(bin[positions[i] - 1]);
     }
-    return bin2;
+    return res.join('');
 }
 
 /**
