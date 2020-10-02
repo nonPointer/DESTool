@@ -42,9 +42,9 @@ function binToStr(bin) {
     let result = '';
 
     let len;
-    if (bin.length % 8 == 0)
+    if (bin.length % 8 === 0)
         len = Math.round(bin.length / 8);
-    else if (bin.length == 6)
+    else if (bin.length === 6)
         len = 6;
     for (let i = 0; i < len; ++i) {
         let t = 0;
