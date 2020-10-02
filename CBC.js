@@ -106,7 +106,7 @@ function leftRotation(arr, offset) {
 /**
  * Derive 16 sub-keys from the master key.
  * @param keyBin {string} binary string
- * @returns {number[]}
+ * @returns {number[][]}
  */
 function keyGenerator(keyBin) {
     let keyLr = permutedChoice1(keyBin);
