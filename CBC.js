@@ -431,8 +431,8 @@ function P(arr) {
 
 /**
  * the 16 iterations of block encryption
- * @param l {string}
- * @param r {number[]}
+ * @param l {string} bin string
+ * @param r {string} bin string
  * @param subkey {number[]}
  * @return {[number[], number[]]}
  */
