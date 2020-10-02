@@ -103,7 +103,7 @@ function leftRotation(arr, offset) {
 
 /**
  * Derive 16 sub-keys from the master key.
- * @param key {string}
+ * @param key {string} binary string
  * @returns {number[]}
  */
 function keyGenerator(key) {
