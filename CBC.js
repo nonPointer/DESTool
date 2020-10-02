@@ -424,17 +424,17 @@ function encipher(l, r, subkey) {
 /**
  * main entry
  * @param text {string}
- * @param key {string}
+ * @param keyPlain {string}
  * @param decrypt {boolean}
  * @return {string} ciphertext | plaintext
  * @constructor
  */
-function DES(text, key, decrypt) {
+function DES(text, keyPlain, decrypt) {
     // preprocess key
-    key = keyPreprocessing(key);
+    keyPlain = keyPreprocessing(keyPlain);
 
     // generate sub-keys from master key
-    let subKeys = keyGenerator(strToBin(key));
+    let subKeys = keyGenerator(strToBin(keyPlain));
     if (decrypt)
         subKeys = subKeys.reverse();
 
