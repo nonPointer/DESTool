@@ -53,40 +53,40 @@ function binToStr(bin) {
 
 /**
  * Regulate key into 64-bit fixed size
- * @param key {string}
+ * @param keyPlain {string}
  * @returns {string}
  */
-function keyPreprocessing(key) {
+function keyPreprocessing(keyPlain) {
 
-    if (key.length < 8) {
+    if (keyPlain.length < 8) {
         // for short key, append zero byte
-        while (key.length !== 8)
-            key = key.concat('\0');
+        while (keyPlain.length !== 8)
+            keyPlain = keyPlain.concat('\0');
 
-        return key;
-    } else if (key.length > 8) {
+        return keyPlain;
+    } else if (keyPlain.length > 8) {
         // for longer bit, use zero byte padding then XOR each bit
-        while (key.length % 8 !== 0) {
-            key = key.concat('\0');
+        while (keyPlain.length % 8 !== 0) {
+            keyPlain = keyPlain.concat('\0');
         }
-        let round = Math.round(key.length / 8);
+        let round = Math.round(keyPlain.length / 8);
         let res = [];
         for (let i = 0; i < 8; ++i) {
-            res.push(key[i].charCodeAt(0));
+            res.push(keyPlain[i].charCodeAt(0));
         }
         for (let i = 1; i < round; ++i) {
             for (let j = 0; j < 8; ++j)
-                res[j] = res[j] ^ key[i * 8 + j].charCodeAt(0);
+                res[j] = res[j] ^ keyPlain[i * 8 + j].charCodeAt(0);
         }
-        key = '';
+        keyPlain = '';
         while (res.length > 0) {
-            key = key.concat(String.fromCharCode(res.shift()));
+            keyPlain = keyPlain.concat(String.fromCharCode(res.shift()));
         }
 
-        return key;
+        return keyPlain;
     }
 
-    return key;
+    return keyPlain;
 }
 
 /**
@@ -103,11 +103,11 @@ function leftRotation(arr, offset) {
 
 /**
  * Derive 16 sub-keys from the master key.
- * @param key {string} binary string
+ * @param keyBin {string} binary string
  * @returns {number[]}
  */
-function keyGenerator(key) {
-    let keyLr = permutedChoice1(key);
+function keyGenerator(keyBin) {
+    let keyLr = permutedChoice1(keyBin);
     let keyL = keyLr[0];
     let keyR = keyLr[1];
 
