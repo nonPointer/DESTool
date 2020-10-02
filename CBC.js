@@ -172,7 +172,7 @@ function permutedChoice2(keyBin) {
 
     let res = [];
     for (let i in pc2) {
-        res.push(keyBin[pc2[i]]);
+        res.push(keyBin[pc2[i] - 1]);
     }
 
     return res;
@@ -196,7 +196,7 @@ function initialPermutation(bin) {
         63, 55, 47, 39, 31, 23, 15, 7
     ]
     for (let i = 0; i < positions.length; ++i) {
-        bin2[i] = bin[positions[i]];
+        bin2[i] = bin[positions[i] - 1];
     }
     return bin2;
 }
@@ -219,7 +219,7 @@ function finalPermutation(bin) {
         33, 1, 41, 9, 49, 17, 57, 25
     ]
     for (let i = 0; i < positions.length; ++i) {
-        bin2[i] = bin[positions[i]];
+        bin2[i] = bin[positions[i] - 1];
     }
     return bin2;
 }
@@ -317,7 +317,7 @@ function expansion(arr) {
     ];
     let ans = [];
     for (let i in eTable) {
-        ans.push(arr[eTable[i]]);
+        ans.push(arr[eTable[i] - 1]);
     }
     return ans;
 }
@@ -393,7 +393,7 @@ function P(arr) {
     ];
     let res = [];
     for (let i in p) {
-        res.push(arr[p[i]]);
+        res.push(arr[p[i] - 1]);
     }
 
     return res;
