@@ -126,10 +126,10 @@ function keyGenerator(keyBin) {
 
 /**
  * Permuted Choice 1
- * @param key {string}
+ * @param keyBin {string}
  * @returns {string[]}
  */
-function permutedChoice1(key) {
+function permutedChoice1(keyBin) {
     let pc1_l = [
         57, 49, 41, 33, 25, 17, 9,
         1, 58, 50, 42, 34, 26, 18,
@@ -144,10 +144,10 @@ function permutedChoice1(key) {
     ];
     let l = [], r = [];
     for (let i in pc1_l) {
-        l.push(key[pc1_l[i] - 1]);
+        l.push(keyBin[pc1_l[i] - 1]);
     }
     for (let i in pc1_r) {
-        r.push(key[pc1_r[i] - 1]);
+        r.push(keyBin[pc1_r[i] - 1]);
     }
 
     return [l, r];
@@ -155,10 +155,10 @@ function permutedChoice1(key) {
 
 /**
  * Permuted Choice 2
- * @param key {string[]}
+ * @param keyBin {string[]}
  * @returns {string[]}
  */
-function permutedChoice2(key) {
+function permutedChoice2(keyBin) {
     let pc2 = [
         14, 17, 11, 24, 1, 5,
         3, 28, 15, 6, 21, 10,
@@ -172,7 +172,7 @@ function permutedChoice2(key) {
 
     let res = [];
     for (let i in pc2) {
-        res.push(key[pc2[i]]);
+        res.push(keyBin[pc2[i]]);
     }
 
     return res;
@@ -180,11 +180,11 @@ function permutedChoice2(key) {
 
 /**
  * IP
- * @param lst0 {string[]}
+ * @param bin {string[]}
  * @returns {string[]}
  */
-function initialPermutation(lst0) {
-    let lst1 = lst0;
+function initialPermutation(bin) {
+    let bin2 = bin;
     let positions = [
         58, 50, 42, 34, 26, 18, 10, 2,
         60, 52, 44, 36, 28, 20, 12, 4,
@@ -196,18 +196,18 @@ function initialPermutation(lst0) {
         63, 55, 47, 39, 31, 23, 15, 7
     ]
     for (let i = 0; i < positions.length; ++i) {
-        lst1[i] = lst0[positions[i]];
+        bin2[i] = bin[positions[i]];
     }
-    return lst1;
+    return bin2;
 }
 
 /**
  * IP^{-1}
- * @param lst0 {string[]}
+ * @param bin {string[]}
  * @returns {string[]}
  */
-function finalPermutation(lst0) {
-    let lst1 = lst0;
+function finalPermutation(bin) {
+    let bin2 = bin;
     let positions = [
         40, 8, 48, 16, 56, 24, 64, 32,
         39, 7, 47, 15, 55, 23, 63, 31,
@@ -219,9 +219,9 @@ function finalPermutation(lst0) {
         33, 1, 41, 9, 49, 17, 57, 25
     ]
     for (let i = 0; i < positions.length; ++i) {
-        lst1[i] = lst0[positions[i]];
+        bin2[i] = bin[positions[i]];
     }
-    return lst1;
+    return bin2;
 }
 
 /**
