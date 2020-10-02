@@ -403,13 +403,13 @@ function P(arr) {
 
 /**
  * the 16 iterations of block encryption
- * @param l {number[]}
+ * @param l {string}
  * @param r {number[]}
  * @param subkey {number[]}
  * @return {[number[], number[]]}
  */
 function encipher(l, r, subkey) {
-    return [r, binXor(l, Feistel(r, subkey))];
+    return [r, binXor(l, Feistel(r, subkey).join(''))];
 }
 
 /**
