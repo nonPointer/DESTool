@@ -186,7 +186,7 @@ function permutedChoice2(keyBin) {
 /**
  * IP
  * @param bin {string[]}
- * @returns {string[]}
+ * @returns {string}
  */
 function initialPermutation(bin) {
     let res = [];
@@ -203,13 +203,17 @@ function initialPermutation(bin) {
     for (let i = 0; i < positions.length; ++i) {
         res.push(bin[positions[i] - 1]);
     }
+    if (DEBUG) {
+        // console.log('IP       \t' + res.join(''));
+        console.assert(res.length === 64, 'bad IP block size');
+    }
     return res.join('');
 }
 
 /**
  * IP^{-1}
  * @param bin {string[]}
- * @returns {string[]}
+ * @returns {string}
  */
 function finalPermutation(bin) {
     let res = [];
