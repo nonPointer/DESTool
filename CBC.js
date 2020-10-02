@@ -225,6 +225,20 @@ function finalPermutation(lst0) {
 }
 
 /**
+ * a XOR b
+ * @param a {string}
+ * @param b {string}
+ * @return {string}
+ */
+function binXor(a, b) {
+    let res = '';
+    for (let i in a) {
+        res = res.concat(a.charCodeAt(i) ^ b.charCodeAt(i));
+    }
+    return res;
+}
+
+/**
  * custom test case
  */
 function testCase() {
@@ -266,6 +280,15 @@ function testCase() {
         let testBinC = '0000000000000000000000000000000000000000000000000000000000000000';
         console.assert(strToBin(keyPreprocessing('1111111111111111')) === testBinC, 'strToBin failed');
     }
+    // binXor
+    {
+        console.log(binXor('11110000', '00001111'));
+        console.assert(binXor('11110000', '00001111') === '11111111');
+        console.assert(binXor('11111111', '00001111') === '11110000');
+    }
+}
+
+
 }
 
 /**
