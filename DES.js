@@ -72,6 +72,21 @@ function binToInt(bin) {
 }
 
 /**
+ * Convert int to bin
+ * @param n {number}
+ * @return {string}
+ */
+function intToBin(n) {
+    let res = Number(n).toString(2);
+    console.log('n = ', n);
+    while (res.length !== 4) {
+        res = '0'.concat(res);
+    }
+    console.log('res = ', res);
+    return res;
+}
+
+/**
  * Regulate key into 64-bit fixed size
  * @param keyPlain {string}
  * @returns {string}
@@ -434,6 +449,7 @@ function S(arr) {
         let p = arr2[i];
         let r = sBox[i][binToInt([p[0], p[5], p[1], p[2], p[3], p[4]].join(''))];
         res.push(strToBin(r));
+        res.push(intToBin(r));
     }
 
     res = res.join('')
