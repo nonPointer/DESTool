@@ -432,7 +432,7 @@ function S(arr) {
     let res = [];
     for (let i = 0; i < 8; ++i) {
         let p = arr2[i];
-        let r = sBox[i][binToStr([p[0], p[5], p[1], p[2], p[3], p[4]].join(''))];
+        let r = sBox[i][binToInt([p[0], p[5], p[1], p[2], p[3], p[4]].join(''))];
         res.push(strToBin(r));
     }
 
