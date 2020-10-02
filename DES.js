@@ -354,10 +354,13 @@ function testCase() {
         if (DEBUG) {
             console.log('#1')
             console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
             console.log('#2')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '88888888', false)));
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '11111111', false)));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
             console.log('#3')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1234567812345678', false)));
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '12345678', false)));
             console.log('#4 good')
             console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
             console.log('#5 good')
@@ -613,10 +616,14 @@ Test case #2
     supposed ciphertext: U2FsdGVkX196fVuVKl+RFBau+1jLTRiE
  */
 
-// utf8 to base64
-// let strBase64 = Buffer.from(inputPlainText).toString('base64');
 
-// base64 to utf8
-// inputPlainText = Buffer.from(strBase64, 'base64').toString('utf8');
+function toBase64(str) {
+    return Buffer.from(str).toString('base64');
+}
+
+function fromBase64(str) {
+    return Buffer.from(str, 'base64').toString('utf8');
+}
+
 
 testCase();
