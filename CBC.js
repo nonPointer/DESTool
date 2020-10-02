@@ -184,7 +184,7 @@ function permutedChoice2(keyBin) {
  * @returns {string[]}
  */
 function initialPermutation(bin) {
-    let bin2 = bin;
+    let res = [];
     let positions = [
         58, 50, 42, 34, 26, 18, 10, 2,
         60, 52, 44, 36, 28, 20, 12, 4,
@@ -196,9 +196,9 @@ function initialPermutation(bin) {
         63, 55, 47, 39, 31, 23, 15, 7
     ]
     for (let i = 0; i < positions.length; ++i) {
-        bin2[i] = bin[positions[i] - 1];
+        res[i].push(bin[positions[i] - 1]);
     }
-    return bin2;
+    return res.join('');
 }
 
 /**
