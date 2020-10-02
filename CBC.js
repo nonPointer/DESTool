@@ -232,7 +232,8 @@ function finalPermutation(lst0) {
  */
 function binXor(a, b) {
     let res = '';
-    for (let i in a) {
+    let len = a.length;
+    for (let i = 0; i < len; ++i) {
         res = res.concat(a.charCodeAt(i) ^ b.charCodeAt(i));
     }
     return res;
