@@ -438,13 +438,13 @@ function encipher(l, r, subkey) {
 
 /**
  * main entry
- * @param text {string}
+ * @param textBin {string} 64bit block
  * @param keyPlain {string}
  * @param decrypt {boolean}
  * @return {string} ciphertext | plaintext
  * @constructor
  */
-function DES(text, keyPlain, decrypt) {
+function DES(textBin, keyPlain, decrypt) {
     // debug
     if (DEBUG) {
         // console.log('textBin \t' + textBin);
