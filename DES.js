@@ -441,8 +441,15 @@ function S(arr) {
     return res;
 }
 
+/**
+ * P permutation
+ * @param arr {string} 32 bits
+ * @return {string} 32 bits
+ * @constructor
+ */
 function P(arr) {
-    let p = [16, 7, 20, 21,
+    let p = [
+        16, 7, 20, 21,
         29, 12, 28, 17,
         1, 15, 23, 26,
         5, 18, 31, 10,
@@ -457,6 +464,7 @@ function P(arr) {
     }
 
     return res;
+    return res.join('');
 }
 
 /**
@@ -467,7 +475,7 @@ function P(arr) {
  * @return {[number[], number[]]}
  */
 function encipher(l, r, subkey) {
-    return [r, binXor(l, Feistel(r, subkey).join(''))];
+    return [r, binXor(l, Feistel(r, subkey))];
 }
 
 /**
