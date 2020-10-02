@@ -58,6 +58,20 @@ function binToStr(bin) {
 }
 
 /**
+ * Convert bin to int
+ * @param bin {string}
+ * @return {number}
+ */
+function binToInt(bin) {
+    bin = bin.split('');
+    let res = 0;
+    while (bin.length != 0) {
+        res = res * 2 + Number(bin.shift());
+    }
+    return res;
+}
+
+/**
  * Regulate key into 64-bit fixed size
  * @param keyPlain {string}
  * @returns {string}
