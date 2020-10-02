@@ -31,6 +31,27 @@ function strToBin(str) {
 }
 
 /**
+ * Convert bin into ASCII string.
+ * @param bin {string}
+ * @returns {string}
+ */
+function binToStr(bin) {
+    let result = '';
+
+    console.assert(bin.length % 8 === 0, 'invalid bin str');
+    let len = Math.round(bin.length / 8);
+    for (let i = 0; i < len; ++i) {
+        let t = 0;
+        for (let j = 0; j < 8; ++j) {
+            t = t * 2 + Number(bin[i * 8 + j]);
+        }
+        result = result.concat(String.fromCharCode(t));
+    }
+
+    return result;
+}
+
+/**
  * Regulate key into 64-bit fixed size
  * @param key {string}
  * @returns {string}
@@ -216,6 +237,16 @@ function testCase() {
         console.assert(strToBin('Hello world!') === testBinA, 'str2bin failed');
         let testBinB = '010001000100010101010011';
         console.assert(strToBin('DES') === testBinB, 'str2bin failed');
+    }
+    // bin2str
+    {
+        let testBinA =
+            '01001000011001010110110001101100' +
+            '01101111001000000111011101101111' +
+            '01110010011011000110010000100001';
+        console.assert('Hello world!' === binToStr(testBinA), 'str2bin failed');
+        let testBinB = '010001000100010101010011';
+        console.assert('DES' === binToStr(testBinB), 'str2bin failed');
     }
     // leftRotate
     {
