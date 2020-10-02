@@ -320,6 +320,6 @@ let strBase64 = Buffer.from(inputPlainText).toString('base64');
 
 // base64 to utf8
 inputPlainText = Buffer.from(strBase64, 'base64').toString('utf8');
-console.log(inputPlainText)
+
 
 testCase();
