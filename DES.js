@@ -78,11 +78,9 @@ function binToInt(bin) {
  */
 function intToBin(n) {
     let res = Number(n).toString(2);
-    console.log('n = ', n);
     while (res.length !== 4) {
         res = '0'.concat(res);
     }
-    console.log('res = ', res);
     return res;
 }
 
@@ -137,13 +135,15 @@ function leftRotation(arr, offset) {
 
 /**
  * Derive 16 sub-keys from the master key.
- * @param keyBin {string} binary string
+ * @param keyBin {string} binary string 64bits
  * @returns {number[][]}
  */
 function keyGenerator(keyBin) {
-    let keyLr = permutedChoice1(keyBin);
-    let keyL = keyLr[0];
-    let keyR = keyLr[1];
+    if (DEBUG) {
+        console.assert(keyBin.length == 64);
+    }
+    let keyL = permutedChoice1(keyBin)[0];
+    let keyR = permutedChoice1(keyBin)[1];
 
     let offsets = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1];
     let subKeys = [];
@@ -152,9 +152,12 @@ function keyGenerator(keyBin) {
         keyL = leftRotation(keyL, offsets[i]);
         keyR = leftRotation(keyR, offsets[i]);
 
+        if (DEBUG) {
+            // console.log('l ' + keyL);
+            // console.log('r ' + keyR);
+        }
         subKeys.push(permutedChoice2(keyL.concat(keyR)));
     }
-    //todo: fix returns
     return subKeys;
 }
 
@@ -182,6 +185,11 @@ function permutedChoice1(keyBin) {
     }
     for (let i in pc1_r) {
         r.push(keyBin[pc1_r[i] - 1]);
+    }
+    if (DEBUG) {
+        // console.log('keybin ' + keyBin)
+        // console.log('l ' + l);
+        // console.log('r ' + r);
     }
 
     return [l, r];
@@ -218,6 +226,7 @@ function permutedChoice2(keyBin) {
  * @returns {string}
  */
 function initialPermutation(bin) {
+    // pass
     let res = [];
     let positions = [
         58, 50, 42, 34, 26, 18, 10, 2,
@@ -235,6 +244,7 @@ function initialPermutation(bin) {
     if (DEBUG) {
         // console.log('IP       \t' + res.join(''));
         console.assert(res.length === 64, 'bad IP block size');
+        // console.log(res.join(''));
     }
     return res.join('');
 }
@@ -245,6 +255,7 @@ function initialPermutation(bin) {
  * @returns {string}
  */
 function finalPermutation(bin) {
+
     let res = [];
     let positions = [
         40, 8, 48, 16, 56, 24, 64, 32,
@@ -258,6 +269,10 @@ function finalPermutation(bin) {
     ]
     for (let i = 0; i < positions.length; ++i) {
         res.push(bin[positions[i] - 1]);
+    }
+    if (DEBUG) {
+        // console.log('bin ', bin);
+        // console.log('FP ', res.join(''));
     }
     return res.join('');
 }
@@ -335,49 +350,59 @@ function testCase() {
         // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
     }
     // DES
-    // todo: failed
     {
         if (DEBUG) {
-            // console.log('#1')
-            // console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
+            console.log('#1')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
             console.log('#2')
             console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '88888888', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '88888888', false)));
-            // console.log('#3')
-            // console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1234567812345678', false)));
-            // console.log('#4 good')
-            // console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '12345678', true));
-            // console.log('#5 bad')
-            // console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '123456781', true));
-            // console.log('#6 bad')
-            // console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '1234567812345678', true));
+            console.log('#3')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1234567812345678', false)));
+            console.log('#4 good')
+            console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
+            console.log('#5 good')
+            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '88888888', true));
+            console.log('#6 bad')
+            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
         }
     }
 }
 
 /**
  * Feistel process
- * @param arr {string} 32 bits
+ * @param arr {string} 32 bits bin
  * @param subKey {number[]} 48 bits
  * @return {number[]}
  * @constructor
  */
 function Feistel(arr, subKey) {
+    // pass
     if (DEBUG) {
         console.assert(arr.length === 32, 'bad Feistel block size');
         console.assert(subKey.length === 48, 'bad Feistel subkey size');
     }
-    return P(S(binXor(expansion(arr).join(''), subKey.join(''))));
+    // console.log(expansion(arr).join(''));
+    let t = binXor(expansion(arr).join(''), subKey.join(''));
+    if (DEBUG) {
+        // console.log('t', t);
+    }
+    t = S(t);
+    if (DEBUG) {
+        // console.log('t', t);
+    }
+    t = P(t);
+    return t;
 }
 
 /**
  * expand the half-block
- * @param arr {number[]} 32 bits
+ * @param arr {string[]} 32 bits
  * @returns {number[]} 48 bits
  */
 function expansion(arr) {
     if (DEBUG) {
         console.assert(arr.length === 32, 'bad expansion array size');
+        // console.log('expand \t' + arr);
     }
 
     let eTable = [
@@ -439,21 +464,35 @@ function S(arr) {
             2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11]
     ];
 
+    // pass
     let arr2 = [];
     for (let i = 0; i < 8; ++i) {
-        arr2.push(arr.slice(i * 8, i * 8 + 6));
+        arr2.push(arr.slice(i * 6, i * 6 + 6));
     }
 
+    if (DEBUG) {
+        // console.log('arr', arr2);
+    }
+
+    // failed
     let res = [];
     for (let i = 0; i < 8; ++i) {
         let p = arr2[i];
         let r = sBox[i][binToInt([p[0], p[5], p[1], p[2], p[3], p[4]].join(''))];
-        res.push(strToBin(r));
+        if (DEBUG) {
+            // console.log('p', p)
+            // console.log('r', r)
+        }
         res.push(intToBin(r));
     }
 
-    res = res.join('')
+    if (DEBUG) {
+        // console.log('res[0]', res[0]);
+    }
+    res = res.join('');
 
+
+    console.assert(res.length === 32, 'bad S');
     return res;
 }
 
@@ -479,7 +518,10 @@ function P(arr) {
         res.push(arr[p[i] - 1]);
     }
 
-    return res;
+    if (DEBUG) {
+        console.assert(res.length === 32, 'bad p');
+    }
+
     return res.join('');
 }
 
@@ -514,7 +556,7 @@ function DES(textBin, keyPlain, decrypt) {
     // pass
     keyPlain = keyPreprocessing(keyPlain);
     if (DEBUG) {
-        console.log('keyBin  \t' + strToBin(keyPlain));
+        // console.log('keyBin  \t' + strToBin(keyPlain));
     }
 
     // generate sub-keys from master key
@@ -533,8 +575,8 @@ function DES(textBin, keyPlain, decrypt) {
     let l = initialPermutation(textBin).slice(0, 32);
     let r = initialPermutation(textBin).slice(32, 64);
     if (DEBUG) {
-        console.log('l\t' + l);
-        console.log('r\t' + r);
+        // console.log('l\t' + l);
+        // console.log('r\t' + r);
     }
 
     // 16 rounds of enciphering
@@ -552,6 +594,10 @@ function DES(textBin, keyPlain, decrypt) {
         r = t[1];
     }
 
+    if (DEBUG) {
+        // console.log('l ', l);
+        // console.log('r ', r);
+    }
     return binToStr(finalPermutation(r.concat(l)));
 }
 
