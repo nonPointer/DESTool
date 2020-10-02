@@ -288,6 +288,15 @@ function testCase() {
         console.assert(binXor('11110000', '00001111') === '11111111');
         console.assert(binXor('11111111', '00001111') === '11110000');
     }
+    // keygen
+    {
+        // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
+    }
+    // DES
+    {
+        console.log(strToBin(DES('12345678', '12345678', false)));
+        console.log(DES(binToStr('0011001000110001001100110011100000111010001110010011101100110100'), '12345678', true));
+    }
 }
 
 /**
