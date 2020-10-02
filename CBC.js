@@ -295,8 +295,8 @@ function testCase() {
  * @return {number[]}
  * @constructor
  */
-function Feistel(r, subkey) {
-    return P(S(binXor(expansion(a), subKey)));
+function Feistel(r, subKey) {
+    return P(S(binXor(expansion(r), subKey)));
 }
 
 /**
