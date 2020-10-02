@@ -253,6 +253,7 @@ function binXor(strA, strB) {
  */
 function testCase() {
     // str2bin
+    // pass
     {
         let testBinA =
             '01001000011001010110110001101100' +
@@ -263,6 +264,7 @@ function testCase() {
         console.assert(strToBin('DES') === testBinB, 'str2bin failed');
     }
     // bin2str
+    // pass
     {
         let testBinA =
             '01001000011001010110110001101100' +
@@ -273,6 +275,7 @@ function testCase() {
         console.assert('DES' === binToStr(testBinB), 'str2bin failed');
     }
     // leftRotate
+    // pass
     {
         let testArray = [1, 2, 3, 4, 5];
         console.assert(leftRotation(testArray, 1)[0] === 2, 'leftRotate failed');
@@ -282,6 +285,7 @@ function testCase() {
         console.assert(leftRotation(testArray, 11)[0] === 2, 'leftRotate failed');
     }
     // keyPreprocessing
+    // pass
     {
         let testBinA = '0011000100110001001100010011000100000000000000000000000000000000';
         console.assert(strToBin(keyPreprocessing('1111')) === testBinA, 'strToBin failed');
@@ -291,42 +295,50 @@ function testCase() {
         console.assert(strToBin(keyPreprocessing('1111111111111111')) === testBinC, 'strToBin failed');
     }
     // binXor
+    // pass
     {
         console.assert(binXor('11110000', '00001111') === '11111111');
         console.assert(binXor('11111111', '00001111') === '11110000');
+        console.assert(binXor('1010101010', '0101010101') === '1111111111');
     }
     // keygen
     {
         // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
     }
     // DES
+    // todo: failed
     {
         if (DEBUG) {
-            console.log('#1')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
+            // console.log('#1')
+            // console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
             console.log('#2')
             console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '88888888', false)));
-            console.log('#3')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1234567812345678', false)));
-            console.log('#4 good')
-            console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '12345678', true));
-            console.log('#5 bad')
-            console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '123456781', true));
-            console.log('#6 bad')
-            console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '1234567812345678', true));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '88888888', false)));
+            // console.log('#3')
+            // console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1234567812345678', false)));
+            // console.log('#4 good')
+            // console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '12345678', true));
+            // console.log('#5 bad')
+            // console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '123456781', true));
+            // console.log('#6 bad')
+            // console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '1234567812345678', true));
         }
     }
 }
 
 /**
  * Feistel process
- * @param r {string} the right semi-block
- * @param subKey {number[]}
+ * @param arr {string} 32 bits
+ * @param subKey {number[]} 48 bits
  * @return {number[]}
  * @constructor
  */
-function Feistel(r, subKey) {
-    return P(S(binXor(expansion(r).join(''), subKey.join(''))));
+function Feistel(arr, subKey) {
+    if (DEBUG) {
+        console.assert(arr.length === 32, 'bad Feistel block size');
+        console.assert(subKey.length === 48, 'bad Feistel subkey size');
+    }
+    return P(S(binXor(expansion(arr).join(''), subKey.join(''))));
 }
 
 /**
@@ -335,6 +347,10 @@ function Feistel(r, subKey) {
  * @returns {number[]} 48 bits
  */
 function expansion(arr) {
+    if (DEBUG) {
+        console.assert(arr.length === 32, 'bad expansion array size');
+    }
+
     let eTable = [
         32, 1, 2, 3, 4, 5,
         4, 5, 6, 7, 8, 9,
@@ -457,41 +473,49 @@ function DES(textBin, keyPlain, decrypt) {
     }
 
     // preprocess key
+    // pass
     keyPlain = keyPreprocessing(keyPlain);
-    if (DEBUG)
+    if (DEBUG) {
         console.log('keyBin  \t' + strToBin(keyPlain));
+    }
 
     // generate sub-keys from master key
+    // pass
     let subKeys = keyGenerator(strToBin(keyPlain));
     if (decrypt)
         subKeys = subKeys.reverse();
+    if (DEBUG) {
+        // console.log(subKeys);
+    }
 
-    let t = initialPermutation(textBin)
     // split into semi-block
-    let l = t.slice(0, 32);
-    let r = t.slice(32, 64);
+    // pass
+    // console.log(initialPermutation(textBin).length) // 64
+    // l: bin str, r: bin str
+    let l = initialPermutation(textBin).slice(0, 32);
+    let r = initialPermutation(textBin).slice(32, 64);
+    if (DEBUG) {
+        console.log('l\t' + l);
+        console.log('r\t' + r);
+    }
 
     // 16 rounds of enciphering
     for (let i = 0; i < 16; ++i) {
         let t = encipher(l, r, subKeys[i]);
+        if (DEBUG) {
+            // pass
+            // console.log('l origin\t' + l);
+            // console.log('r origin\t' + r);
+            // let a = encipher(t[1], t[0], subKeys[i]);
+            // console.log('l\'      \t' + a[1]);
+            // console.log('r\'      \t' + a[0]);
+        }
         l = t[0];
         r = t[1];
     }
 
     return binToStr(finalPermutation(r.concat(l)));
 }
-
-/**
- * Blob binary or plaintext
- * @type {string}
- */
-let inputPlainText = 'Hello world!';
-
-/**
- * Key, default empty
- * @type {string}
- */
-let inputKey = '';
 
 /*
 Test case #1
@@ -506,10 +530,9 @@ Test case #2
  */
 
 // utf8 to base64
-let strBase64 = Buffer.from(inputPlainText).toString('base64');
+// let strBase64 = Buffer.from(inputPlainText).toString('base64');
 
 // base64 to utf8
-inputPlainText = Buffer.from(strBase64, 'base64').toString('utf8');
-
+// inputPlainText = Buffer.from(strBase64, 'base64').toString('utf8');
 
 testCase();
