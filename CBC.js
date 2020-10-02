@@ -38,8 +38,11 @@ function strToBin(str) {
 function binToStr(bin) {
     let result = '';
 
-    console.assert(bin.length % 8 === 0, 'invalid bin str');
-    let len = Math.round(bin.length / 8);
+    let len;
+    if (bin.length % 8 == 0)
+        len = Math.round(bin.length / 8);
+    else if (bin.length == 6)
+        len = 6;
     for (let i = 0; i < len; ++i) {
         let t = 0;
         for (let j = 0; j < 8; ++j) {
