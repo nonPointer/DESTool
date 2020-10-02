@@ -88,7 +88,6 @@ function keyPreprocessing(keyPlain) {
 
         return keyPlain;
     }
-
     return keyPlain;
 }
 
@@ -123,7 +122,7 @@ function keyGenerator(keyBin) {
 
         subKeys.push(permutedChoice2(keyL.concat(keyR)));
     }
-
+    //todo: fix returns
     return subKeys;
 }
 
