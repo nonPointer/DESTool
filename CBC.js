@@ -226,15 +226,15 @@ function finalPermutation(bin) {
 
 /**
  * a XOR b
- * @param a {string}
- * @param b {string}
+ * @param strA {string}
+ * @param strB {string}
  * @return {string}
  */
-function binXor(a, b) {
+function binXor(strA, strB) {
     let res = '';
-    let len = a.length;
+    let len = strA.length;
     for (let i = 0; i < len; ++i) {
-        res = res.concat(a.charCodeAt(i) ^ b.charCodeAt(i));
+        res = res.concat(strA.charCodeAt(i) ^ strB.charCodeAt(i));
     }
     return res;
 }
@@ -290,9 +290,9 @@ function testCase() {
 
 /**
  * Feistel process
- * @param r
- * @param subkey
- * @return {*[]}
+ * @param r {string} the right semi-block
+ * @param subkey {number[]}
+ * @return {number[]}
  * @constructor
  */
 function Feistel(r, subkey) {
