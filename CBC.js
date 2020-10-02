@@ -293,12 +293,12 @@ function testCase() {
 /**
  * Feistel process
  * @param r {string} the right semi-block
- * @param subkey {number[]}
+ * @param subKey {number[]}
  * @return {number[]}
  * @constructor
  */
 function Feistel(r, subKey) {
-    return P(S(binXor(expansion(r), subKey)));
+    return P(S(binXor(expansion(r).join(''), subKey.join(''))));
 }
 
 /**
