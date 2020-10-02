@@ -10,6 +10,9 @@
 //  enable strict mode
 "use strict";
 
+// debug mode
+var DEBUG = true;
+
 /**
  * Covert ASCII string to binary string with 1 and 0
  * @param str {string}
@@ -294,8 +297,20 @@ function testCase() {
     }
     // DES
     {
-        console.log(strToBin(DES('12345678', '12345678', false)));
-        console.log(DES(binToStr('0011001000110001001100110011100000111010001110010011101100110100'), '12345678', true));
+        if (DEBUG) {
+            console.log('#1')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
+            console.log('#2')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '88888888', false)));
+            console.log('#3')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1234567812345678', false)));
+            console.log('#4 good')
+            console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '12345678', true));
+            console.log('#5 bad')
+            console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '123456781', true));
+            console.log('#6 bad')
+            console.log('plaintext\t' + DES('0011001000110001001100110011100000111010001110010011101100110100', '1234567812345678', true));
+        }
     }
 }
 
@@ -430,15 +445,24 @@ function encipher(l, r, subkey) {
  * @constructor
  */
 function DES(text, keyPlain, decrypt) {
+    // debug
+    if (DEBUG) {
+        // console.log('textBin \t' + textBin);
+        // console.log('keyPlain\t' + keyPlain);
+        // console.log('decrypt \t' + decrypt);
+    }
+
     // preprocess key
     keyPlain = keyPreprocessing(keyPlain);
+    if (DEBUG)
+        console.log('keyBin  \t' + strToBin(keyPlain));
 
     // generate sub-keys from master key
     let subKeys = keyGenerator(strToBin(keyPlain));
     if (decrypt)
         subKeys = subKeys.reverse();
 
-    let t = initialPermutation(strToBin(text))
+    let t = initialPermutation(textBin)
     // split into semi-block
     let l = t.slice(0, 32);
     let r = t.slice(32, 64);
