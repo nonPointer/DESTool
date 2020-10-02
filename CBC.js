@@ -196,7 +196,7 @@ function initialPermutation(bin) {
         63, 55, 47, 39, 31, 23, 15, 7
     ]
     for (let i = 0; i < positions.length; ++i) {
-        res[i].push(bin[positions[i] - 1]);
+        res.push(bin[positions[i] - 1]);
     }
     return res.join('');
 }
