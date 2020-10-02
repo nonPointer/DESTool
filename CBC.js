@@ -67,7 +67,7 @@ function keyPreprocessing(key) {
     } else if (key.length > 8) {
         // for longer bit, use zero byte padding then XOR each bit
         while (key.length % 8 !== 0) {
-            key = key.push('\0');
+            key = key.concat('\0');
         }
         let round = Math.round(key.length / 8);
         let res = [];
@@ -126,8 +126,8 @@ function keyGenerator(key) {
 
 /**
  * Permuted Choice 1
- * @param key {number}
- * @returns {number[]}
+ * @param key {string}
+ * @returns {string[]}
  */
 function permutedChoice1(key) {
     let pc1_l = [
@@ -155,8 +155,8 @@ function permutedChoice1(key) {
 
 /**
  * Permuted Choice 2
- * @param key {number[]}
- * @returns {number[]}
+ * @param key {string[]}
+ * @returns {string[]}
  */
 function permutedChoice2(key) {
     let pc2 = [
@@ -180,8 +180,8 @@ function permutedChoice2(key) {
 
 /**
  * IP
- * @param lst0 {number[]}
- * @returns {number[]}
+ * @param lst0 {string[]}
+ * @returns {string[]}
  */
 function initialPermutation(lst0) {
     let lst1 = lst0;
@@ -203,8 +203,8 @@ function initialPermutation(lst0) {
 
 /**
  * IP^{-1}
- * @param lst0 {number[]}
- * @returns {number[]}
+ * @param lst0 {string[]}
+ * @returns {string[]}
  */
 function finalPermutation(lst0) {
     let lst1 = lst0;
