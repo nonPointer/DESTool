@@ -649,6 +649,56 @@ function testCase() {
 
 }
 
+/**
+ * split bin to 64-bit block
+ * @param str
+ * @return {string[]}
+ */
+function splitToBlock(str) {
+    console.assert(str.length % 64 === 0, 'bad splitToBlock block');
+    let blocks = [];
+    for (let i = 0; i < str.length / 64; ++i) {
+        blocks.push(str.slice(i * 64, (i + 1) * 64));
+    }
+    return blocks;
+}
+
+/**
+ * the main entry of DES ECB mode
+ * @param dataOrigin {string} the origin string or file stream in ASCII
+ * @param keyText {string}
+ * @param decrypt {boolean} decrypt?
+ * @param file {boolean} is file?
+ * @return {string}
+ * @constructor
+ */
+function ECB(dataOrigin, keyText, decrypt, file) {
+    let keyBlock = keyPreprocessing(keyText);
+
+    // split bin into 64-bit blocks
+    let binBlocks;
+    if (decrypt)
+        binBlocks = splitToBlock(strToBin(dataOrigin));
+    else
+        binBlocks = splitToBlock(strToBin(pkcs5Padding(dataOrigin)));
+
+    for (let i = 0; i < binBlocks.length; ++i) {
+        binBlocks[i] = DES(binBlocks[i], keyBlock, decrypt);
+    }
+
+    // pkcs5
+    let binResult;
+    if (decrypt)
+        binResult = pkcs5DePadding(binBlocks.join(''));
+    else
+        binResult = binBlocks.join('');
+
+    if (file) {
+        // todo
+    }
+
+    return binResult;
+}
 
 if (DEBUG) {
     testCase();
