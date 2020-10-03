@@ -679,8 +679,9 @@ function testCase() {
         // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
     }
     // DES
+    // pass
     {
-        if (DEBUG) {
+        if (DEBUG && false) {
             console.log('#1')
             console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
             console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
@@ -689,7 +690,6 @@ function testCase() {
             console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
             console.log('#3')
             console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '12345678', false)));
             console.log('#4 good')
             console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
             console.log('#5 good')
