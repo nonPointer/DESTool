@@ -556,6 +556,29 @@ function fromBase64(str) {
 }
 
 /**
+ * Padding pkcs5
+ * @param str ASCII string
+ * @return {string} ASCII string
+ */
+function pkcs5Padding(str) {
+    let p = 8 - str.length % 8;
+    for (let i = 0; i < p; ++i) {
+        str = str.concat(String.fromCharCode(p));
+    }
+    return str;
+}
+
+/**
+ * De-padding pkcs5
+ * @param str {string} ASCII string
+ * @return {string} ASCII string
+ */
+function pkcs5Depadding(str) {
+    let p = str.charCodeAt(str.length - 1);
+    return str.slice(0, str.length - p);
+}
+
+/**
  * custom test case
  */
 function testCase() {
@@ -631,6 +654,14 @@ function testCase() {
             console.log('#6 bad')
             console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
         }
+    }
+    // pkcs5
+    {
+        let strA = '1234567812345';
+        console.assert(strA === pkcs5Depadding(pkcs5Padding(strA)),'bad pkcs5');
+        let strB = '';
+        console.log(strToBin(pkcs5Padding(strB)));
+        console.assert(strB === pkcs5Depadding(pkcs5Padding(strB)),'bad pkcs5');
     }
 }
 
