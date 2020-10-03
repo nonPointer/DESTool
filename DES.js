@@ -522,24 +522,6 @@ Test case #2
  */
 
 /**
- * Convert string to base64
- * @param str {string} plaintext string
- * @return {string} base64 string
- */
-function toBase64(str) {
-    return Buffer.from(str).toString('base64');
-}
-
-/**
- * Convert base64 to string
- * @param str {string} base64 string
- * @return {string} plaintext string
- */
-function fromBase64(str) {
-    return Buffer.from(str, 'base64').toString('utf8');
-}
-
-/**
  * Padding pkcs5
  * @param str {string} ASCII string
  * @return {string} ASCII string
@@ -645,6 +627,30 @@ function testCase() {
         let strC = '12345678 ';
         console.assert(strC === pkcs5DePadding(pkcs5Padding(strC)), 'bad pkcs5');
     }
+    // ECB
+    {
+        console.log('ECB');
+        // text
+        let t1 = binToHex(strToBin(ECB(binToHex(strToBin('1234567887654321')), '11111111', false, false)));
+        console.log('t1', t1);
+        let t2 = ECB('858B176DA8B125036B7E5F725DFB0A34AD6A88B4FA37833D', '11111111', true, false);
+        console.log('t2', t2);
+        // simulate file
+        // decrypt
+        let file1 = {
+            'filename': '3.txt',
+            'data': '858B176DA8B125036B7E5F725DFB0A34AD6A88B4FA37833D'
+        };
+        let t3 = ECB(JSON.stringify(file1), '11111111', true, 'file');
+        console.log('t3', JSON.stringify(t3));
+        // encrypt
+        let file2 = {
+            'filename': '4.txt',
+            'data': '1234567887654321'
+        }
+        let t4 = ECB(JSON.stringify(file2), '11111111', false, '2.txt');
+        console.log('t4', JSON.stringify(t4));
+    }
 
 }
 
@@ -671,32 +677,61 @@ function splitToBlock(str) {
  * @return {string}
  * @constructor
  */
-function ECB(dataOrigin, keyText, decrypt, file) {
+function ECB(data, keyText, decrypt, filename) {
+
     let keyBlock = keyPreprocessing(keyText);
+
+    let dataOrigin;
+
+    // process json
+    if (filename.length > 0) {
+        let json = JSON.parse(data);
+        // override var with the origin filename
+        filename = json['filename'];
+        if (!decrypt) {
+            dataOrigin = json['data'];
+        } else {
+            // already hex
+            dataOrigin = binToStr(hexToBin(json['data']));
+        }
+    } else {
+        dataOrigin = binToStr(hexToBin(data));
+    }
 
     // split bin into 64-bit blocks
     let binBlocks;
-    if (decrypt)
-        binBlocks = splitToBlock(strToBin(dataOrigin));
-    else
+    if (!decrypt) {
+        // pkcs5 padding
         binBlocks = splitToBlock(strToBin(pkcs5Padding(dataOrigin)));
+    } else {
+        binBlocks = splitToBlock(strToBin(dataOrigin));
+    }
 
+    // console.log(binBlocks.join(''));
+
+    // call DES Core
     for (let i = 0; i < binBlocks.length; ++i) {
         binBlocks[i] = DES(binBlocks[i], keyBlock, decrypt);
     }
 
-    // pkcs5
-    let binResult;
-    if (decrypt)
-        binResult = pkcs5DePadding(binBlocks.join(''));
-    else
-        binResult = binBlocks.join('');
-
-    if (file) {
-        // todo
+    let result;
+    if (decrypt) {
+        // pkcs5 depadding
+        result = pkcs5DePadding(binBlocks.join(''));
+    } else {
+        result = binBlocks.join('');
     }
 
-    return binResult;
+    // recover the file
+    if (filename.length > 0) {
+        if (decrypt) {
+            result = {'filename': filename, 'data': result};
+        } else {
+            result = {'filename': filename, 'data': binToHex(strToBin(result))};
+        }
+    }
+
+    return result;
 }
 
 if (DEBUG) {
