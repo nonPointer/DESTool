@@ -327,7 +327,10 @@ function hexToBin(str, separator = '') {
     }
     for (let i = 0; i < str.length / 2; ++i) {
         let c = binMap[str[i * 2]] * 16 + binMap[str[i * 2 + 1]];
-        res.push(c.toString(2));
+        let bin = c.toString(2);
+        while (bin.length !== 8)
+            bin = '0'.concat(bin);
+        res.push(bin);
     }
     return res.join(separator);
 }
