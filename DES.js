@@ -45,7 +45,8 @@ function binToStr(bin) {
     if (bin.length % 8 === 0)
         len = Math.round(bin.length / 8);
     else if (bin.length === 6)
-        len = 6;
+        bin = '00'.concat(bin);
+
     for (let i = 0; i < len; ++i) {
         let t = 0;
         for (let j = 0; j < 8; ++j) {
