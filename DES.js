@@ -293,85 +293,6 @@ function binXor(strA, strB) {
 }
 
 /**
- * custom test case
- */
-function testCase() {
-    // str2bin
-    // pass
-    {
-        let testBinA =
-            '01001000011001010110110001101100' +
-            '01101111001000000111011101101111' +
-            '01110010011011000110010000100001';
-        console.assert(strToBin('Hello world!') === testBinA, 'str2bin failed');
-        let testBinB = '010001000100010101010011';
-        console.assert(strToBin('DES') === testBinB, 'str2bin failed');
-    }
-    // bin2str
-    // pass
-    {
-        let testBinA =
-            '01001000011001010110110001101100' +
-            '01101111001000000111011101101111' +
-            '01110010011011000110010000100001';
-        console.assert('Hello world!' === binToStr(testBinA), 'str2bin failed');
-        let testBinB = '010001000100010101010011';
-        console.assert('DES' === binToStr(testBinB), 'str2bin failed');
-    }
-    // leftRotate
-    // pass
-    {
-        let testArray = [1, 2, 3, 4, 5];
-        console.assert(leftRotation(testArray, 1)[0] === 2, 'leftRotate failed');
-        console.assert(leftRotation(testArray, 2)[0] === 3, 'leftRotate failed');
-        // need module just in case offset > array length
-        console.assert(leftRotation(testArray, 6)[0] === 2, 'leftRotate failed');
-        console.assert(leftRotation(testArray, 11)[0] === 2, 'leftRotate failed');
-    }
-    // keyPreprocessing
-    // pass
-    {
-        let testBinA = '0011000100110001001100010011000100000000000000000000000000000000';
-        console.assert(strToBin(keyPreprocessing('1111')) === testBinA, 'strToBin failed');
-        let testBinB = '0011000100110001001100010011000100110001001100010011000100110001';
-        console.assert(strToBin(keyPreprocessing('11111111')) === testBinB, 'strToBin failed');
-        let testBinC = '0000000000000000000000000000000000000000000000000000000000000000';
-        console.assert(strToBin(keyPreprocessing('1111111111111111')) === testBinC, 'strToBin failed');
-    }
-    // binXor
-    // pass
-    {
-        console.assert(binXor('11110000', '00001111') === '11111111');
-        console.assert(binXor('11111111', '00001111') === '11110000');
-        console.assert(binXor('1010101010', '0101010101') === '1111111111');
-    }
-    // keygen
-    {
-        // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
-    }
-    // DES
-    {
-        if (DEBUG) {
-            console.log('#1')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
-            console.log('#2')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '11111111', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
-            console.log('#3')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '12345678', false)));
-            console.log('#4 good')
-            console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
-            console.log('#5 good')
-            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '88888888', true));
-            console.log('#6 bad')
-            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
-        }
-    }
-}
-
-/**
  * Feistel process
  * @param arr {string} 32 bits bin
  * @param subKey {number[]} 48 bits
@@ -616,14 +537,104 @@ Test case #2
     supposed ciphertext: U2FsdGVkX196fVuVKl+RFBau+1jLTRiE
  */
 
-
+/**
+ * Covert string to base64
+ * @param str {string}
+ * @return {string}
+ */
 function toBase64(str) {
     return Buffer.from(str).toString('base64');
 }
 
+/**
+ * Covert base64 to string
+ * @param str {string}
+ * @return {string}
+ */
 function fromBase64(str) {
     return Buffer.from(str, 'base64').toString('utf8');
 }
 
+/**
+ * custom test case
+ */
+function testCase() {
+    // str2bin
+    // pass
+    {
+        let testBinA =
+            '01001000011001010110110001101100' +
+            '01101111001000000111011101101111' +
+            '01110010011011000110010000100001';
+        console.assert(strToBin('Hello world!') === testBinA, 'str2bin failed');
+        let testBinB = '010001000100010101010011';
+        console.assert(strToBin('DES') === testBinB, 'str2bin failed');
+    }
+    // bin2str
+    // pass
+    {
+        let testBinA =
+            '01001000011001010110110001101100' +
+            '01101111001000000111011101101111' +
+            '01110010011011000110010000100001';
+        console.assert('Hello world!' === binToStr(testBinA), 'str2bin failed');
+        let testBinB = '010001000100010101010011';
+        console.assert('DES' === binToStr(testBinB), 'str2bin failed');
+    }
+    // leftRotate
+    // pass
+    {
+        let testArray = [1, 2, 3, 4, 5];
+        console.assert(leftRotation(testArray, 1)[0] === 2, 'leftRotate failed');
+        console.assert(leftRotation(testArray, 2)[0] === 3, 'leftRotate failed');
+        // need module just in case offset > array length
+        console.assert(leftRotation(testArray, 6)[0] === 2, 'leftRotate failed');
+        console.assert(leftRotation(testArray, 11)[0] === 2, 'leftRotate failed');
+    }
+    // keyPreprocessing
+    // pass
+    {
+        let testBinA = '0011000100110001001100010011000100000000000000000000000000000000';
+        console.assert(strToBin(keyPreprocessing('1111')) === testBinA, 'strToBin failed');
+        let testBinB = '0011000100110001001100010011000100110001001100010011000100110001';
+        console.assert(strToBin(keyPreprocessing('11111111')) === testBinB, 'strToBin failed');
+        let testBinC = '0000000000000000000000000000000000000000000000000000000000000000';
+        console.assert(strToBin(keyPreprocessing('1111111111111111')) === testBinC, 'strToBin failed');
+    }
+    // binXor
+    // pass
+    {
+        console.assert(binXor('11110000', '00001111') === '11111111');
+        console.assert(binXor('11111111', '00001111') === '11110000');
+        console.assert(binXor('1010101010', '0101010101') === '1111111111');
+    }
+    // keygen
+    {
+        // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
+    }
+    // DES
+    {
+        if (DEBUG) {
+            console.log('#1')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
+            console.log('#2')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '11111111', false)));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
+            console.log('#3')
+            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
+            console.log('ciphertext\t' + (DES(strToBin('12345678'), '12345678', false)));
+            console.log('#4 good')
+            console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
+            console.log('#5 good')
+            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '88888888', true));
+            console.log('#6 bad')
+            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
+        }
+    }
+}
 
-testCase();
+
+if (DEBUG) {
+    testCase();
+}
