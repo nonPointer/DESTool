@@ -293,6 +293,49 @@ function binXor(strA, strB) {
 }
 
 /**
+ * Convert bin string to hex string
+ * @param str {string}
+ * @param separator {string}
+ * @returns {string}
+ */
+function binToHex(str, separator = '') {
+    let res = [];
+    let hexMap = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+    console.assert(str.length % 8 === 0, 'bad binToHex block');
+    for (let i = 0; i < str.length / 8; ++i) {
+        let c = 0;
+        for (let j = 0; j < 8; ++j) {
+            c = c * 2 + Number(str[i * 8 + j]);
+        }
+        res.push(hexMap[Math.round(c / 16)].concat(hexMap[Math.round(c) % 16]));
+    }
+    return res.join(separator)
+}
+
+/**
+ * Convert hex string to bin string
+ * @param str
+ * @param separator
+ * @return {string}
+ */
+function hexToBin(str, separator = '') {
+    let res = [];
+    str = str.toLowerCase()
+    console.assert(str.length % 2 === 0, 'bad hexToBin block');
+    let binMap = {
+        '0': 0, '1': 1, '2': 2, '3': 3,
+        '4': 4, '5': 5, '6': 6, '7': 7,
+        '8': 8, '9': 9, 'a': 10, 'b': 11,
+        'c': 12, 'd': 13, 'e': 14, 'f': 15
+    }
+    for (let i = 0; i < str.length / 2; ++i) {
+        let c = binMap[str[i * 2]] * 16 + binMap[str[i * 2 + 1]];
+        res.push(c.toString(2));
+    }
+    return res.join(separator);
+}
+
+/**
  * Feistel process
  * @param arr {string} 32 bits bin
  * @param subKey {number[]} 48 bits
@@ -655,14 +698,21 @@ function testCase() {
             console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
         }
     }
+    // binToHex HexToBin
+    {
+        console.assert(binToHex('10000101100001011000010110000101', '') === '85858585', 'bad binToHex');
+        console.assert(hexToBin('85858585', '') === '10000101100001011000010110000101', 'bad hexToBin');
+    }
     // pkcs5
     {
         let strA = '1234567812345';
-        console.assert(strA === pkcs5Depadding(pkcs5Padding(strA)),'bad pkcs5');
+        console.assert(strA === pkcs5Depadding(pkcs5Padding(strA)), 'bad pkcs5');
         let strB = '';
-        console.log(strToBin(pkcs5Padding(strB)));
-        console.assert(strB === pkcs5Depadding(pkcs5Padding(strB)),'bad pkcs5');
+        console.assert(strB === pkcs5Depadding(pkcs5Padding(strB)), 'bad pkcs5');
+        let strC = '12345678 ';
+        console.assert(strC === pkcs5Depadding(pkcs5Padding(strC)), 'bad pkcs5');
     }
+
 }
 
 
