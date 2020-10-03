@@ -480,17 +480,14 @@ function encipher(l, r, subKey) {
 /**
  * main entry
  * @param textBin {string} 64 bit bin block
- * @param keyPlain {string} the clear text key
+ * @param keyBlock {string} the regulated key
  * @param decrypt {boolean}
  * @return {string} ciphertext | plaintext
  * @constructor
  */
-function DES(textBin, keyPlain, decrypt) {
-    // preprocess key
-    keyPlain = keyPreprocessing(keyPlain);
-
+function DES(textBin, keyBlock, decrypt) {
     // generate sub-keys from master key
-    let subKeys = keyGenerator(strToBin(keyPlain));
+    let subKeys = keyGenerator(strToBin(keyBlock));
     if (decrypt)
         subKeys = subKeys.reverse();
 
@@ -617,19 +614,19 @@ function testCase() {
     // DES
     {
         console.log('#1')
-        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
-        console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
+        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), keyPreprocessing('1111'), false)));
+        console.log('ciphertext\t' + (DES(strToBin('12345678'), keyPreprocessing('1111'), false)));
         console.log('#2')
-        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '11111111', false)));
-        console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
+        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), keyPreprocessing('11111111'), false)));
+        console.log('ciphertext\t' + (DES(strToBin('12345678'), keyPreprocessing('11111111'), false)));
         console.log('#3')
-        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
+        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), keyPreprocessing('12345678'), false)));
         console.log('#4 good')
-        console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
+        console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', keyPreprocessing('1111'), true));
         console.log('#5 good')
-        console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '88888888', true));
+        console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', keyPreprocessing('88888888'), true));
         console.log('#6 bad')
-        console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
+        console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', keyPreprocessing('8888888888888888'), true));
     }
     // binToHex HexToBin
     {
