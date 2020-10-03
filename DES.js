@@ -301,7 +301,7 @@ function binToHex(str, separator = '') {
         for (let j = 0; j < 8; ++j) {
             c = c * 2 + Number(str[i * 8 + j]);
         }
-        res.push(hexMap[Math.round(c / 16)].concat(hexMap[Math.round(c) % 16]));
+        res.push(hexMap[Math.floor(c / 16)].concat(hexMap[Math.round(c) % 16]));
     }
     return res.join(separator)
 }
