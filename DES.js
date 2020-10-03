@@ -15,8 +15,8 @@ var DEBUG = true;
 
 /**
  * Covert ASCII string to binary string with 1 and 0
- * @param str {string}
- * @returns {string}
+ * @param str {string} ASCII string
+ * @returns {string} Binary string
  */
 function strToBin(str) {
     // force conversion to string
