@@ -139,9 +139,9 @@ function leftRotation(arr, offset) {
  * @returns {number[][]}
  */
 function keyGenerator(keyBin) {
-    if (DEBUG) {
-        console.assert(keyBin.length == 64);
-    }
+    // if (DEBUG) {
+    //     console.assert(keyBin.length == 64);
+    // }
     let keyL = permutedChoice1(keyBin)[0];
     let keyR = permutedChoice1(keyBin)[1];
 
@@ -226,7 +226,6 @@ function permutedChoice2(keyBin) {
  * @returns {string}
  */
 function initialPermutation(bin) {
-    // pass
     let res = [];
     let positions = [
         58, 50, 42, 34, 26, 18, 10, 2,
@@ -241,11 +240,9 @@ function initialPermutation(bin) {
     for (let i = 0; i < positions.length; ++i) {
         res.push(bin[positions[i] - 1]);
     }
-    if (DEBUG) {
-        // console.log('IP       \t' + res.join(''));
-        console.assert(res.length === 64, 'bad IP block size');
-        // console.log(res.join(''));
-    }
+    // if (DEBUG) {
+    //     console.assert(res.length === 64, 'bad IP block size');
+    // }
     return res.join('');
 }
 
@@ -301,7 +298,9 @@ function binXor(strA, strB) {
 function binToHex(str, separator = '') {
     let res = [];
     let hexMap = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
-    console.assert(str.length % 8 === 0, 'bad binToHex block');
+
+    // console.assert(str.length % 8 === 0, 'bad binToHex block');
+
     for (let i = 0; i < str.length / 8; ++i) {
         let c = 0;
         for (let j = 0; j < 8; ++j) {
@@ -321,7 +320,9 @@ function binToHex(str, separator = '') {
 function hexToBin(str, separator = '') {
     let res = [];
     str = str.toLowerCase()
-    console.assert(str.length % 2 === 0, 'bad hexToBin block');
+
+    // console.assert(str.length % 2 === 0, 'bad hexToBin block');
+
     let binMap = {
         '0': 0, '1': 1, '2': 2, '3': 3,
         '4': 4, '5': 5, '6': 6, '7': 7,
@@ -343,20 +344,13 @@ function hexToBin(str, separator = '') {
  * @constructor
  */
 function Feistel(arr, subKey) {
-    // pass
-    if (DEBUG) {
-        console.assert(arr.length === 32, 'bad Feistel block size');
-        console.assert(subKey.length === 48, 'bad Feistel subkey size');
-    }
-    // console.log(expansion(arr).join(''));
+    // if (DEBUG) {
+    //     console.assert(arr.length === 32, 'bad Feistel block size');
+    //     console.assert(subKey.length === 48, 'bad Feistel subkey size');
+    // }
+
     let t = binXor(expansion(arr).join(''), subKey.join(''));
-    if (DEBUG) {
-        // console.log('t', t);
-    }
     t = S(t);
-    if (DEBUG) {
-        // console.log('t', t);
-    }
     t = P(t);
     return t;
 }
@@ -367,10 +361,9 @@ function Feistel(arr, subKey) {
  * @returns {number[]} 48 bits
  */
 function expansion(arr) {
-    if (DEBUG) {
-        console.assert(arr.length === 32, 'bad expansion array size');
-        // console.log('expand \t' + arr);
-    }
+    // if (DEBUG) {
+    //     console.assert(arr.length === 32, 'bad expansion array size');
+    // }
 
     let eTable = [
         32, 1, 2, 3, 4, 5,
@@ -431,35 +424,24 @@ function S(arr) {
             2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11]
     ];
 
-    // pass
     let arr2 = [];
     for (let i = 0; i < 8; ++i) {
         arr2.push(arr.slice(i * 6, i * 6 + 6));
     }
 
-    if (DEBUG) {
-        // console.log('arr', arr2);
-    }
-
-    // failed
     let res = [];
     for (let i = 0; i < 8; ++i) {
         let p = arr2[i];
         let r = sBox[i][binToInt([p[0], p[5], p[1], p[2], p[3], p[4]].join(''))];
-        if (DEBUG) {
-            // console.log('p', p)
-            // console.log('r', r)
-        }
         res.push(intToBin(r));
     }
 
-    if (DEBUG) {
-        // console.log('res[0]', res[0]);
-    }
+    // if (DEBUG) {
+    //     console.log('res[0]', res[0]);
+    // }
     res = res.join('');
 
-
-    console.assert(res.length === 32, 'bad S');
+    // console.assert(res.length === 32, 'bad S');
     return res;
 }
 
@@ -485,9 +467,9 @@ function P(arr) {
         res.push(arr[p[i] - 1]);
     }
 
-    if (DEBUG) {
-        console.assert(res.length === 32, 'bad p');
-    }
+    // if (DEBUG) {
+    //     console.assert(res.length === 32, 'bad p');
+    // }
 
     return res.join('');
 }
@@ -512,59 +494,26 @@ function encipher(l, r, subkey) {
  * @constructor
  */
 function DES(textBin, keyPlain, decrypt) {
-    // debug
-    if (DEBUG) {
-        // console.log('textBin \t' + textBin);
-        // console.log('keyPlain\t' + keyPlain);
-        // console.log('decrypt \t' + decrypt);
-    }
-
     // preprocess key
-    // pass
     keyPlain = keyPreprocessing(keyPlain);
-    if (DEBUG) {
-        // console.log('keyBin  \t' + strToBin(keyPlain));
-    }
 
     // generate sub-keys from master key
-    // pass
     let subKeys = keyGenerator(strToBin(keyPlain));
     if (decrypt)
         subKeys = subKeys.reverse();
-    if (DEBUG) {
-        // console.log(subKeys);
-    }
 
     // split into semi-block
-    // pass
-    // console.log(initialPermutation(textBin).length) // 64
     // l: bin str, r: bin str
     let l = initialPermutation(textBin).slice(0, 32);
     let r = initialPermutation(textBin).slice(32, 64);
-    if (DEBUG) {
-        // console.log('l\t' + l);
-        // console.log('r\t' + r);
-    }
 
     // 16 rounds of enciphering
     for (let i = 0; i < 16; ++i) {
         let t = encipher(l, r, subKeys[i]);
-        if (DEBUG) {
-            // pass
-            // console.log('l origin\t' + l);
-            // console.log('r origin\t' + r);
-            // let a = encipher(t[1], t[0], subKeys[i]);
-            // console.log('l\'      \t' + a[1]);
-            // console.log('r\'      \t' + a[0]);
-        }
         l = t[0];
         r = t[1];
     }
 
-    if (DEBUG) {
-        // console.log('l ', l);
-        // console.log('r ', r);
-    }
     return binToStr(finalPermutation(r.concat(l)));
 }
 
@@ -626,7 +575,6 @@ function pkcs5Depadding(str) {
  */
 function testCase() {
     // str2bin
-    // pass
     {
         let testBinA =
             '01001000011001010110110001101100' +
@@ -637,7 +585,6 @@ function testCase() {
         console.assert(strToBin('DES') === testBinB, 'str2bin failed');
     }
     // bin2str
-    // pass
     {
         let testBinA =
             '01001000011001010110110001101100' +
@@ -648,7 +595,6 @@ function testCase() {
         console.assert('DES' === binToStr(testBinB), 'str2bin failed');
     }
     // leftRotate
-    // pass
     {
         let testArray = [1, 2, 3, 4, 5];
         console.assert(leftRotation(testArray, 1)[0] === 2, 'leftRotate failed');
@@ -658,7 +604,6 @@ function testCase() {
         console.assert(leftRotation(testArray, 11)[0] === 2, 'leftRotate failed');
     }
     // keyPreprocessing
-    // pass
     {
         let testBinA = '0011000100110001001100010011000100000000000000000000000000000000';
         console.assert(strToBin(keyPreprocessing('1111')) === testBinA, 'strToBin failed');
@@ -668,7 +613,6 @@ function testCase() {
         console.assert(strToBin(keyPreprocessing('1111111111111111')) === testBinC, 'strToBin failed');
     }
     // binXor
-    // pass
     {
         console.assert(binXor('11110000', '00001111') === '11111111');
         console.assert(binXor('11111111', '00001111') === '11110000');
@@ -679,7 +623,6 @@ function testCase() {
         // console.log(keyGenerator(strToBin(keyPreprocessing('1234'))));
     }
     // DES
-    // pass
     {
         if (DEBUG && false) {
             console.log('#1')
