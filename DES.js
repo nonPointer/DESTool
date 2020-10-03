@@ -86,8 +86,8 @@ function intToBin(n) {
 
 /**
  * Regulate key into 64-bit fixed size
- * @param keyPlain {string}
- * @returns {string}
+ * @param keyPlain {string} cleartext key
+ * @returns {string} 8 char ASCII string
  */
 function keyPreprocessing(keyPlain) {
 
@@ -163,8 +163,8 @@ function keyGenerator(keyBin) {
 
 /**
  * Permuted Choice 1
- * @param keyBin {string}
- * @returns {string[]}
+ * @param keyBin {string} 64 bits in string
+ * @returns {number[][]} left and right block bits in 2-dimensional array
  */
 function permutedChoice1(keyBin) {
     let pc1_l = [
@@ -197,8 +197,8 @@ function permutedChoice1(keyBin) {
 
 /**
  * Permuted Choice 2
- * @param keyBin {string[]}
- * @returns {string[]}
+ * @param keyBin {string} 56 bits in string
+ * @returns {number[]} 48 bits in array
  */
 function permutedChoice2(keyBin) {
     let pc2 = [
@@ -216,14 +216,13 @@ function permutedChoice2(keyBin) {
     for (let i in pc2) {
         res.push(keyBin[pc2[i] - 1]);
     }
-
     return res;
 }
 
 /**
  * IP
- * @param bin {string[]}
- * @returns {string}
+ * @param bin {string} 64 bits in block
+ * @returns {string} 64 bits in block
  */
 function initialPermutation(bin) {
     let res = [];
@@ -248,11 +247,10 @@ function initialPermutation(bin) {
 
 /**
  * IP^{-1}
- * @param bin {string[]}
- * @returns {string}
+ * @param bin {string} 64 bits in string
+ * @returns {string} 64 bits in string
  */
 function finalPermutation(bin) {
-
     let res = [];
     let positions = [
         40, 8, 48, 16, 56, 24, 64, 32,
@@ -267,10 +265,7 @@ function finalPermutation(bin) {
     for (let i = 0; i < positions.length; ++i) {
         res.push(bin[positions[i] - 1]);
     }
-    if (DEBUG) {
-        // console.log('bin ', bin);
-        // console.log('FP ', res.join(''));
-    }
+
     return res.join('');
 }
 
@@ -291,9 +286,9 @@ function binXor(strA, strB) {
 
 /**
  * Convert bin string to hex string
- * @param str {string}
- * @param separator {string}
- * @returns {string}
+ * @param str {string} bits in string
+ * @param separator {string} separator between each byte
+ * @returns {string} hex string
  */
 function binToHex(str, separator = '') {
     let res = [];
@@ -313,9 +308,9 @@ function binToHex(str, separator = '') {
 
 /**
  * Convert hex string to bin string
- * @param str
- * @param separator
- * @return {string}
+ * @param str {string} hex string
+ * @param separator {string} the separator between each byte
+ * @return {string} bin string
  */
 function hexToBin(str, separator = '') {
     let res = [];
@@ -338,10 +333,9 @@ function hexToBin(str, separator = '') {
 
 /**
  * Feistel process
- * @param arr {string} 32 bits bin
- * @param subKey {number[]} 48 bits
- * @return {number[]}
- * @constructor
+ * @param arr {string} 32 bits in bin string
+ * @param subKey {number[]} 48 bits in array
+ * @return {number[]} 32 bits in array
  */
 function Feistel(arr, subKey) {
     // if (DEBUG) {
@@ -357,8 +351,8 @@ function Feistel(arr, subKey) {
 
 /**
  * expand the half-block
- * @param arr {string[]} 32 bits
- * @returns {number[]} 48 bits
+ * @param arr {string[]} 32 bits in bin string
+ * @returns {number[]} 48 bits in bin string
  */
 function expansion(arr) {
     // if (DEBUG) {
@@ -383,10 +377,9 @@ function expansion(arr) {
 }
 
 /**
- * SBox permutation
- * @param arr {string} 48 bits
- * @return {string} 32 bits
- * @constructor
+ * S Box permutation
+ * @param arr {string} 48 bits in bin string
+ * @return {string} 32 bits in bin string
  */
 function S(arr) {
     let sBox = [
@@ -447,9 +440,8 @@ function S(arr) {
 
 /**
  * P permutation
- * @param arr {string} 32 bits
- * @return {string} 32 bits
- * @constructor
+ * @param arr {string} 32 bits in bin string
+ * @return {string} 32 bits in bin string
  */
 function P(arr) {
     let p = [
@@ -476,8 +468,8 @@ function P(arr) {
 
 /**
  * the 16 iterations of block encryption
- * @param l {string} bin string
- * @param r {string} bin string
+ * @param l {string} 32 bits in bin string
+ * @param r {string} 32 bits in bin string
  * @param subkey {number[]}
  * @return {[number[], number[]]}
  */
@@ -487,8 +479,8 @@ function encipher(l, r, subkey) {
 
 /**
  * main entry
- * @param textBin {string} 64bit block
- * @param keyPlain {string}
+ * @param textBin {string} 64 bit bin block
+ * @param keyPlain {string} the clear text key
  * @param decrypt {boolean}
  * @return {string} ciphertext | plaintext
  * @constructor
@@ -530,18 +522,18 @@ Test case #2
  */
 
 /**
- * Covert string to base64
- * @param str {string}
- * @return {string}
+ * Convert string to base64
+ * @param str {string} plaintext string
+ * @return {string} base64 string
  */
 function toBase64(str) {
     return Buffer.from(str).toString('base64');
 }
 
 /**
- * Covert base64 to string
- * @param str {string}
- * @return {string}
+ * Convert base64 to string
+ * @param str {string} base64 string
+ * @return {string} plaintext string
  */
 function fromBase64(str) {
     return Buffer.from(str, 'base64').toString('utf8');
@@ -549,7 +541,7 @@ function fromBase64(str) {
 
 /**
  * Padding pkcs5
- * @param str ASCII string
+ * @param str {string} ASCII string
  * @return {string} ASCII string
  */
 function pkcs5Padding(str) {
@@ -624,22 +616,20 @@ function testCase() {
     }
     // DES
     {
-        if (DEBUG && false) {
-            console.log('#1')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
-            console.log('#2')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '11111111', false)));
-            console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
-            console.log('#3')
-            console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
-            console.log('#4 good')
-            console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
-            console.log('#5 good')
-            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '88888888', true));
-            console.log('#6 bad')
-            console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
-        }
+        console.log('#1')
+        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '1111', false)));
+        console.log('ciphertext\t' + (DES(strToBin('12345678'), '1111', false)));
+        console.log('#2')
+        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '11111111', false)));
+        console.log('ciphertext\t' + (DES(strToBin('12345678'), '11111111', false)));
+        console.log('#3')
+        console.log('ciphertext\t' + strToBin(DES(strToBin('12345678'), '12345678', false)));
+        console.log('#4 good')
+        console.log('plaintext\t' + DES('0011000110011100100011111100100101110111111000000011000111000110', '1111', true));
+        console.log('#5 good')
+        console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '88888888', true));
+        console.log('#6 bad')
+        console.log('plaintext\t' + DES('0011101100101100011111000111111001101000001010011010111011011010', '8888888888888888', true));
     }
     // binToHex HexToBin
     {
