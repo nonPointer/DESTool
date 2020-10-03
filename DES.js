@@ -482,12 +482,11 @@ function encipher(l, r, subKey) {
 }
 
 /**
- * main entry
+ * DES Core
  * @param textBin {string} 64 bit bin block
  * @param keyBlock {string} the regulated key
  * @param decrypt {boolean}
  * @return {string} ciphertext | plaintext
- * @constructor
  */
 function DES(textBin, keyBlock, decrypt) {
     // generate sub-keys from master key
@@ -664,11 +663,11 @@ function splitToBlock(str) {
 }
 
 /**
- * the main entry of DES ECB mode
- * @param dataOrigin {string} the origin string or file stream in ASCII
+ * ECB Mode
+ * @param data {string|json} hex string or file stream as json
  * @param keyText {string}
  * @param decrypt {boolean} decrypt?
- * @param file {boolean} is file?
+ * @param filename {string} filename if exist
  * @return {string}
  * @constructor
  */
