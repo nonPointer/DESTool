@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Online DES Tool</title>
+
+    <!-- MDUI -->
+    <script src="static/js/mdui.min.js"></script>
+    <link rel="stylesheet" href="static/css/mdui.min.css">
+    <link rel="stylesheet" href="static/css/custom.css">
+
+    <!--  Custom  -->
+    <script src="static/js/DES.js"></script>
+    <script src="static/js/custom.js"></script>
+    <script>window.onload = custom</script>
+
 </head>
-<body>
-$END$
+<body class="mdui-theme-primary-blue">
+<h1>DESTool</h1>
+<header>
+
+</header>
+
+<main>
+    <div id="left">
+        <label for="plainTextarea"></label><input id="plainTextarea" type="text" placeholder="Plaintext"/>
+        <input id="plainFile" type="file">
+        <a href="" download="" id="plainDownload"></a>
+    </div>
+
+    <div id="middle">
+        <label for="cipherTextarea"></label><input id="cipherTextarea" type="text" placeholder="Cipher"/>
+    </div>
+
+    <div id="right">
+        <label for="cipherTextTextarea"></label><input id="cipherTextTextarea" type="text"
+        placeholder="Ciphertext as hexadecimal"/>
+        <input id="cipherFile" type="file">
+        <a href="" download="" id="cipherDownload"></a>
+    </div>
+</main>
+
+<footer>
+
+</footer>
 </body>
 </html>

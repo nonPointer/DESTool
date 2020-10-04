@@ -1,0 +1,15 @@
+textarea {
+
+}
+
+input:valid {
+    background-color: #ddffdd;
+}
+
+#cipher:invalid {
+    background-color: yellow;
+}
+
+#cipherText:invalid {
+    background-color: #FF0000;
+}
