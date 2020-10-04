@@ -11,7 +11,7 @@
 "use strict";
 
 // debug mode
-var DEBUG = true;
+var DEBUG = false;
 
 /**
  * Covert ASCII string to binary string with 1 and 0
@@ -685,10 +685,12 @@ function ECB(data, keyText, decrypt, filename) {
 
     // process json
     if (filename.length > 0) {
+        console.log(data);
         let json = JSON.parse(data);
         // override var with the origin filename
         filename = json['filename'];
         if (!decrypt) {
+            // encrypt
             dataOrigin = json['data'];
         } else {
             // already hex
@@ -729,6 +731,7 @@ function ECB(data, keyText, decrypt, filename) {
         } else {
             result = {'filename': filename, 'data': binToHex(strToBin(result))};
         }
+        result = JSON.stringify(result);
     }
 
     return result;
