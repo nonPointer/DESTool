@@ -685,7 +685,6 @@ function ECB(data, keyText, decrypt, filename) {
 
     // process json
     if (filename.length > 0) {
-        console.log(data);
         let json = JSON.parse(data);
         // override var with the origin filename
         filename = json['filename'];
