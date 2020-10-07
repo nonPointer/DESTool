@@ -1,5 +1,4 @@
 /**
- * CBC - Cipher Block Chaining
  * key: 56 bits + 8 bits parity = (7 + 1) * 8
  * block size = 64 bits
  * iterations = 16
