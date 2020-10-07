@@ -1,5 +1,21 @@
-textarea {
+body {
+    text-align: center;
+}
 
+footer {
+    margin: 80px;
+}
+
+input {
+    width: 200px;
+}
+
+#plainFile {
+    margin-right: 108px;
+}
+
+#cipherFile {
+    margin-left: 108px;
 }
 
 input:valid {

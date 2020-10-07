@@ -119,8 +119,8 @@ function custom() {
         filename = file.name;
         fileReader.readAsDataURL(file);
     }
-    let cipherFile = document.querySelector('#cipherFile');
 
+    let cipherFile = document.querySelector('#cipherFile');
     cipherFile.onchange = function (event) {
         fileMethod = true;
         let file = event.target.files[0];

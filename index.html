@@ -27,26 +27,30 @@
 </header>
 
 <main>
-    <div id="left">
-        <label for="plainTextarea"></label><input id="plainTextarea" type="text" placeholder="Plaintext"/>
-        <input id="plainFile" type="file">
-        <a href="" download="" id="plainDownload"></a>
-    </div>
 
-    <div id="middle">
-        <label for="cipherTextarea"></label><input id="cipherTextarea" type="text" placeholder="Cipher"/>
-    </div>
+    <tr>
+        <td><label for="plainTextarea"></label><input id="plainTextarea" type="text" placeholder="Plaintext"/>
+        </td>
+        <td><label for="cipherTextarea"></label><input id="cipherTextarea" type="text" placeholder="Cipher"/>
+        </td>
+        <td><label for="cipherTextTextarea"></label><input id="cipherTextTextarea" type="text"
+                                                           placeholder="Ciphertext as hexadecimal"/>
+        </td>
+    </tr>
+    <br/>
+    <tr>
+        <td><input id="plainFile" type="file">
+            <a href="" download="" id="plainDownload"></a></td>
+        <td></td>
+        <td><input id="cipherFile" type="file">
+            <a href="" download="" id="cipherDownload"></a></td>
+    </tr>
 
-    <div id="right">
-        <label for="cipherTextTextarea"></label><input id="cipherTextTextarea" type="text"
-        placeholder="Ciphertext as hexadecimal"/>
-        <input id="cipherFile" type="file">
-        <a href="" download="" id="cipherDownload"></a>
-    </div>
+
 </main>
 
 <footer>
-
+    Recommended platform<br/> Google Chrome 85+, FireFox 81+ under x64 operating system.
 </footer>
 </body>
 </html>
