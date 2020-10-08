@@ -86,6 +86,10 @@ function custom() {
 
             // clean displayed filename
             cipherFile.value = '';
+
+            mdui.snackbar({
+                message: 'Task finished!'
+            });
         } else {
             // encrypt
             let json = {'filename': filename, 'data': fileContent};
@@ -97,6 +101,10 @@ function custom() {
 
             // clean displayed filename
             plainFile.value = '';
+
+            mdui.snackbar({
+                message: 'Task finished!'
+            });
         }
     };
 
@@ -157,4 +165,20 @@ function dataURItoBlob(dataURI) {
     }
 
     return new Blob([ab], {type: mimeString});
+}
+
+function copyCiphertext() {
+    document.querySelector('#cipherTextTextarea').select();
+    document.execCommand("copy");
+    mdui.snackbar({
+        message: 'Copied'
+    });
+}
+
+function copyPlaintext() {
+    document.querySelector('#plainTextarea').select();
+    document.execCommand("copy");
+    mdui.snackbar({
+        message: 'Copied'
+    });
 }

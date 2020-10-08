@@ -34,8 +34,11 @@
                     <input class="mdui-textfield-input"
                            id="plainTextarea" type="text"
                            placeholder="Plaintext"/>
+                    <button class="mdui-btn mdui-btn-raised" onclick="copyPlaintext()">Copy</button>
                 </div>
-                <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="plainFile" type="file">
+                <div class="mdui-textfield">
+                    <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="plainFile" type="file">
+                </div>
             </div>
             <div class="mdui-col-xs-2">
                 <div class="mdui-textfield">
@@ -58,8 +61,11 @@
                     <input class="mdui-textfield-input" id="cipherTextTextarea" type="text"
                            placeholder="Hexadecimal string"/>
                     <div class="mdui-textfield-error">Decryption failed</div>
+                    <button class="mdui-btn mdui-btn-raised" onclick="copyCiphertext()">Copy</button>
                 </div>
-                <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="cipherFile" type="file">
+                <div class="mdui-textfield">
+                    <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="cipherFile" type="file">
+                </div>
             </div>
             <div class="mdui-row">
                 <div class="mdui-col-xs-12">
