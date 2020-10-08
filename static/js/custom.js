@@ -101,6 +101,9 @@ function custom() {
             // override filename with the origin
             plainDownload.download = json['filename'];
             plainDownload.click();
+
+            // clean displayed filename
+            cipherFile.value = '';
         } else {
             // encrypt
             let json = {'filename': filename, 'data': fileContent};
@@ -109,6 +112,9 @@ function custom() {
             cipherDownload.href = URL.createObjectURL(blob);
             cipherDownload.download = filename.concat('.encrypted');
             cipherDownload.click();
+
+            // clean displayed filename
+            plainFile.value = '';
         }
     };
 
