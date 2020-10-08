@@ -14,12 +14,11 @@ function custom() {
         console.log('plain', plain.value);
         cipherText.value = binToHex(strToBin(ECB(binToHex(strToBin(plain.value)), cipher.value, false, '')), separaterValue);
         cipherText.setCustomValidity('');
+        cipherText.reportValidity();
     };
-    // plain.onchange = plain.oninput;
 
     cipher.oninput = function () {
         console.log('cipher', cipher.value);
-        checkPlainValid()
 
         if (state) {
             plain.value = ECB(cipherText.value, cipher.value, true, '');
@@ -28,55 +27,36 @@ function custom() {
             cipherText.value = binToHex(strToBin(ECB(binToHex(strToBin(plain.value)), cipher.value, false, '')), separaterValue);
         }
 
+        // check cipher length
         if (cipher.value.length === 8) {
             cipher.setCustomValidity('');
         } else {
             cipher.setCustomValidity('Non-standard cipher length');
         }
+        cipher.reportValidity();
     };
-    // cipher.onchange = cipher.oninput;
 
     cipherText.oninput = function () {
         state = true;
         console.log('cipherText', cipherText.value);
 
         // check if valid block length
-        if (cipherText.value.length % 16 === 0) {
+        if (checkCipherText()) {
             plain.value = ECB(cipherText.value, cipher.value, true, '');
-            checkPlainValid();
-        } else {
-            setTimeout(function () {
-                    if (cipherText.value.length % 16 !== 0) {
-                        cipherText.setCustomValidity('Invalid ciphertext length');
-                    } else {
-                        cipherText.setCustomValidity('');
-                    }
-                }, 1000
-            );
         }
-
     };
-    // mark invalid ciphertext after changed
-    cipherText.onchange = function () {
-        if (cipherText.value.length % 16 === 0) {
-            cipherText.setCustomValidity('');
+
+    function checkCipherText() {
+        if (cipherText.value.length % 16 !== 0) {
+            cipherText.setCustomValidity('Decryption failed');
+            cipherText.reportValidity();
+            return false;
         } else {
-            cipherText.setCustomValidity('Invalid ciphertext');
+            console.log('length valid');
+            cipherText.setCustomValidity('');
+            cipherText.reportValidity();
+            return true;
         }
-    }
-
-    function checkPlainValid() {
-
-        setTimeout(function () {
-                if (calculateVisibleASCII(plain.value) === 0) {
-                    cipherText.setCustomValidity('Decryption failed');
-                    cipher.setCustomValidity('Decryption failed');
-                } else {
-                    cipherText.setCustomValidity('');
-                    cipher.setCustomValidity('');
-                }
-            }, 1000
-        );
     }
 
     // file process
@@ -139,9 +119,10 @@ function custom() {
 
     separater.oninput = function () {
         separaterValue = separater.value.toString();
+        if (!state) {
+            plain.oninput();
+        }
     };
-    separater.onchange = separater.oninput;
-    separater.focusout = separater.oninput;
 }
 
 /**

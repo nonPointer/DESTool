@@ -1,31 +1,11 @@
-body {
-    text-align: center;
+main {
+    margin-top: 60px;
 }
 
-footer {
-    margin: 80px;
+.download-link {
+    /* hide for users */
+    display: none;
 }
-
-input {
-    width: 200px;
-}
-
-#plainFile {
-    margin-right: 108px;
-}
-
-#cipherFile {
-    margin-left: 108px;
-}
-
-input:valid {
-    background-color: #ddffdd;
-}
-
-#cipher:invalid {
-    background-color: yellow;
-}
-
-#cipherText:invalid {
-    background-color: #FF0000;
+.mdui-bottom-nav {
+    margin-top: 100px;
 }
