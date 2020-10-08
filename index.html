@@ -20,65 +20,66 @@
     <script>window.onload = custom</script>
 
 </head>
-<body class="mdui-theme-primary-blue">
+<body class="mdui-theme-primary-blue mdui-text-color-indigo">
 <div class="mdui-container">
     <div class="mdui-typo">
         <h1>DESTool<br><small>Yet another serverless DES utility tool.</small></h1>
     </div>
     <main>
-
-        <div class="mdui-row">
-            <div class="mdui-col-xs-5">
-                <div class="mdui-textfield">
-                    <label class="mdui-textfield-label" for="plainTextarea">Plaintext</label>
-                    <input class="mdui-textfield-input"
-                           id="plainTextarea" type="text"
-                           placeholder="Plaintext"/>
-                    <button class="mdui-btn mdui-btn-raised" onclick="copyPlaintext()">Copy</button>
-                </div>
-                <div class="mdui-textfield">
-                    <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="plainFile" type="file">
-                </div>
+        <div class="mdui-col-xs-5">
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label" for="plainTextarea">Plaintext</label>
+                <input class="mdui-textfield-input"
+                       id="plainTextarea" type="text"
+                       placeholder="Plaintext"/>
+                <button class="mdui-btn mdui-btn-raised" onclick="copyPlaintext()">Copy</button>
+                <button class="mdui-btn mdui-btn-raised" onclick="document.querySelector('#plainFile').click()">Upload</button>
             </div>
-            <div class="mdui-col-xs-2">
-                <div class="mdui-textfield">
-                    <label class="mdui-textfield-label" for="cipherTextarea">Cipher</label>
-                    <input class="mdui-textfield-input"
-                           id="cipherTextarea" type="text"
-                           placeholder="Cipher"/>
-                    <div class="mdui-textfield-error">Non-standard cipher length</div>
-                </div>
-                <div class="mdui-textfield">
-                    <label class="mdui-textfield-label" for="separator">Hex Output Separator</label>
-                    <input class="mdui-textfield-input" id="separator" type="text" maxlength="1"
-                           placeholder="Character"/>
-                    <div class="mdui-textfield-helper">Optional</div>
-                </div>
+            <div class="mdui-textfield">
+                <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="plainFile" type="file">
+                 </div>
+        </div>
+        <div class="mdui-col-xs-2">
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label" for="cipherTextarea">Cipher</label>
+                <input class="mdui-textfield-input"
+                       id="cipherTextarea" type="text"
+                       placeholder="Cipher"/>
+                <div class="mdui-textfield-error">Non-standard cipher length</div>
             </div>
-            <div class="mdui-col-xs-5">
-                <div class="mdui-textfield">
-                    <label class="mdui-textfield-label" for="cipherTextTextarea">Ciphertext</label>
-                    <input class="mdui-textfield-input" id="cipherTextTextarea" type="text"
-                           placeholder="Hexadecimal string"/>
-                    <div class="mdui-textfield-error">Decryption failed</div>
-                    <button class="mdui-btn mdui-btn-raised" onclick="copyCiphertext()">Copy</button>
-                </div>
-                <div class="mdui-textfield">
-                    <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="cipherFile" type="file">
-                </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label" for="separator">Hex Output Separator</label>
+                <input class="mdui-textfield-input" id="separator" type="text" maxlength="1"
+                       placeholder="Character"/>
+                <div class="mdui-textfield-helper">Optional</div>
             </div>
-            <div class="mdui-row">
-                <div class="mdui-col-xs-12">
-                    <div class="mdui-bottom-nav">
-                        Recommended platform<br/> Google Chrome 85+, FireFox 81+ under x64 operating system.
-                    </div>
-                </div>
+        </div>
+        <div class="mdui-col-xs-5">
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label" for="cipherTextTextarea">Ciphertext</label>
+                <input class="mdui-textfield-input" id="cipherTextTextarea" type="text"
+                       placeholder="Hexadecimal string"/>
+                <div class="mdui-textfield-error">Decryption failed</div>
+                <button class="mdui-btn mdui-btn-raised" onclick="copyCiphertext()">Copy</button>
+                <button class="mdui-btn mdui-btn-raised" onclick="document.querySelector('#cipherFile').click()">Upload</button>
             </div>
-
+            <div class="mdui-textfield">
+                <input class="mdui-btn mdui-color-theme-accent mdui-ripple" id="cipherFile" type="file">
+            </div>
         </div>
         <a href="" download="" id="cipherDownload" class="download-link"></a>
         <a href="" download="" id="plainDownload" class="download-link"></a>
     </main>
+
+    <footer>
+        <div class="mdui-col-xs-12">
+            <div class="mdui-bottom-nav mdui-text-color-black">
+                Recommended platform:<br/>
+                Google Chrome 85+, FireFox 81+ under x64 operating system.<br/>
+                DESTool, 2020.
+            </div>
+        </div>
+    </footer>
 </div>
 </body>
 </html>
