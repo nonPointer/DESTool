@@ -20,7 +20,7 @@
     <script>window.onload = custom</script>
 
 </head>
-<body class="mdui-theme-primary-blue mdui-text-color-indigo">
+<body class="mdui-theme-primary-blue mdui-text-color-indigo-600">
 <div class="mdui-container">
     <div class="mdui-typo">
         <h1>DESTool<br><small>Yet another serverless DES utility tool.</small></h1>
@@ -31,7 +31,7 @@
                 <label class="mdui-textfield-label" for="plainTextarea">Plaintext</label>
                 <input class="mdui-textfield-input"
                        id="plainTextarea" type="text"
-                       placeholder="Plaintext"/>
+                       placeholder="String"/>
                 <button class="mdui-btn mdui-btn-raised" onclick="copyPlaintext()">Copy</button>
                 <button class="mdui-btn mdui-btn-raised" onclick="document.querySelector('#plainFile').click()">Upload</button>
             </div>
@@ -44,7 +44,7 @@
                 <label class="mdui-textfield-label" for="cipherTextarea">Cipher</label>
                 <input class="mdui-textfield-input"
                        id="cipherTextarea" type="text"
-                       placeholder="Cipher"/>
+                       placeholder="String"/>
                 <div class="mdui-textfield-error">Non-standard cipher length</div>
             </div>
             <div class="mdui-textfield">
@@ -73,7 +73,7 @@
 
     <footer>
         <div class="mdui-col-xs-12">
-            <div class="mdui-bottom-nav mdui-text-color-black">
+            <div class="mdui-bottom-nav mdui-text-color-grey">
                 Recommended platform:<br/>
                 Google Chrome 85+, FireFox 81+ under x64 operating system.<br/>
                 DESTool, 2020.
