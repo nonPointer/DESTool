@@ -2,6 +2,8 @@ function custom() {
     let plain = document.querySelector('#plainTextarea');
     let cipher = document.querySelector('#cipherTextarea');
     let cipherText = document.querySelector('#cipherTextTextarea');
+    let separater = document.querySelector('#separator');
+    let separaterValue = '';
 
     // false: plain, true: ciphertext
     // used for detect process direction when cipher has been changed
@@ -10,7 +12,7 @@ function custom() {
     plain.oninput = function () {
         state = false;
         console.log('plain', plain.value);
-        cipherText.value = binToHex(strToBin(ECB(binToHex(strToBin(plain.value)), cipher.value, false, '')));
+        cipherText.value = binToHex(strToBin(ECB(binToHex(strToBin(plain.value)), cipher.value, false, '')), separaterValue);
         cipherText.setCustomValidity('');
     };
     // plain.onchange = plain.oninput;
@@ -23,7 +25,7 @@ function custom() {
             plain.value = ECB(cipherText.value, cipher.value, true, '');
             console.log(calculateVisibleASCII(plain.value));
         } else {
-            cipherText.value = binToHex(strToBin(ECB(binToHex(strToBin(plain.value)), cipher.value, false, '')));
+            cipherText.value = binToHex(strToBin(ECB(binToHex(strToBin(plain.value)), cipher.value, false, '')), separaterValue);
         }
 
         if (cipher.value.length === 8) {
@@ -134,6 +136,12 @@ function custom() {
         // fileReader.readAsDataURL(file);
         fileReader.readAsBinaryString(file);
     }
+
+    separater.oninput = function () {
+        separaterValue = separater.value.toString();
+    };
+    separater.onchange = separater.oninput;
+    separater.focusout = separater.oninput;
 }
 
 /**
